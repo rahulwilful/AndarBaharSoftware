@@ -1,0 +1,68 @@
+const playNextVideo = async () => {
+    console.log("playNextVideo called");
+    if (downloadedVideos.length <= 1) {
+      console.log("only one video left");
+      let path = await localStorage.getItem(
+        `${downloadedVideos?.[currentVideoIndex].public_id}`
+      );
+
+      if (!path || path == undefined || path == null) {
+        deleteVideoLocally(
+          downloadedVideos?.[currentVideoIndex].public_id,
+          downloadedVideos?.[currentVideoIndex].localPath
+        );
+        return;
+      }
+
+      playAgain();
+      console.log("current video: ", downloadedVideos[currentVideoIndex]);
+      return;
+    }
+
+    let i =
+      currentVideoIndex == downloadedVideos.length - 1
+        ? 0
+        : currentVideoIndex + 1;
+
+    const tempId = downloadedVideos[currentVideoIndex]?.public_id;
+    console.log("currentIndex: ", currentVideoIndex);
+    while (
+      downloadedVideos.length > 0 &&
+      tempId != downloadedVideos[i].public_id
+    ) {
+      console.log("playNext: ", downloadedVideos?.[i]);
+
+      let path = await localStorage.getItem(
+        `${downloadedVideos?.[i]?.public_id}`
+      );
+      if (path) {
+        setCurrentVideoIndex(i);
+        console.log("current video: ", downloadedVideos[i]);
+        return;
+      }
+
+      if (!path || path == undefined || path == null) {
+        console.log("no path");
+        deleteVideoLocally(
+          downloadedVideos?.[currentVideoIndex + i].public_id,
+          downloadedVideos?.[currentVideoIndex + i].localPath
+        );
+      }
+
+      if (i == downloadedVideos.length - 1) {
+        i = 0;
+      } else {
+        i++;
+      }
+    }
+
+    /*  let temp = currentVideoIndex;
+    if (currentVideoIndex < downloadedVideos.length - 1) {
+      setCurrentVideoIndex(currentVideoIndex + 1);
+      temp = temp + 1;
+    } else {
+      setCurrentVideoIndex(0);
+      temp = 0;
+    }
+    console.log("current video: ", downloadedVideos[temp]); */
+  };
