@@ -1,7 +1,22 @@
-video::-webkit-media-controls {
-  display: none !important;
+.pointer {
+  cursor: pointer;
+}
+.body{
+  height: 100vh;
 }
 
-video {
-  outline: none;
+.tempBorder {
+  border: 5px solid red;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
 }
