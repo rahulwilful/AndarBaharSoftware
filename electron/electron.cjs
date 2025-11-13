@@ -46,7 +46,7 @@ app.whenReady().then(() => {
 
   // ⚙️ Replace COM3 with your BeeTek device’s COM port
   const port = new SerialPort({
-    path: "COM4", // 👈 change this to your actual port
+    path: "COM3", // 👈 change this to your actual port
     baudRate: 9600, // check BeeTek docs for exact baud rate
   });
 
