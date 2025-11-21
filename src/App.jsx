@@ -3,6 +3,9 @@ import axiosClient from "./axiosClient";
 import "./App.css";
 import { CardImage } from "./components/Cards";
 import Result from "./components/Result";
+import s from "./pattern.module.css"
+import Header from "./components/layout/Header";
+import Analysis from "./components/Analysis";
 
 function App() {
   const [cardCode, setCardCode] = useState(null);
@@ -23,7 +26,7 @@ function App() {
 
     //onsole.log(CardImage.length);
 
-    localStorage.setItem("nextAndar",1)
+    localStorage.setItem("nextAndar",0)
   }, []);
 
   const displayCard = (data) => {
@@ -37,6 +40,11 @@ function App() {
       }
     }
   };
+
+  const clearSetCard = () => {
+    setCard(null)
+    setCardCode(null)
+  }
 
 
 
@@ -68,15 +76,16 @@ const setCards = (data) => {
 
 
   return (
-    <div style={{ padding: "20px" }}>
-      <Result card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
-      <h1>Andar Bahar Result Reader</h1>
-      <p>Waiting for data from BeeTek shoe...</p>
-      <img
-        src={card}
-        alt="King of Hearts"
-        className={`${card ? "d-block" : "d-none"}`}
-      />
+    <div className={`position-relative text-light`} style={{ }}>
+      <div className={`position-absolute  vh-100 vw-100 ${s.container}`}> </div>
+
+      <div className={`position-absolute  w-100`}>
+        <Header />
+      <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
+      <Analysis />
+      
+     
+        </div>
     </div>
   );
 }

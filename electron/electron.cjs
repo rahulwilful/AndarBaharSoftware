@@ -4,13 +4,11 @@ const https = require("https");
 const { protocol } = require("electron");
 
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
-
-const isDev = process.env.IS_DEV === "true";
-
-// Define the video directory path
 const { SerialPort } = require("serialport");
+const { ReadlineParser } = require("@serialport/parser-readline");
 
 let mainWindow;
+let activePort = null; // store connected port
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -20,7 +18,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
-      nodeIntegration: false, // keep secure
+      nodeIntegration: false,
     },
   });
 
@@ -32,42 +30,60 @@ function createWindow() {
   mainWindow.loadURL(startURL);
 }
 
+// -----------------------------------------------------
+// 🔌 TRY COM1 to COM6 UNTIL SUCCESSFUL CONNECTION
+// -----------------------------------------------------
+async function connectToBeeTek() {
+  const COM_PORTS = ["COM1", "COM2", "COM3", "COM4", "COM5", "COM6"];
+
+  console.log("🔍 Searching BeeTek device on COM1–COM6...");
+
+  for (let com of COM_PORTS) {
+    try {
+      console.log(`Trying ${com} ...`);
+
+      const port = new SerialPort({
+        path: com,
+        baudRate: 9600,
+        autoOpen: false,
+      });
+
+      await new Promise((resolve, reject) => {
+        port.open((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      console.log(`✅ Connected BeeTek device on ${com}`);
+      activePort = port;
+
+      const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+
+      parser.on("data", (data) => {
+        console.log("🃏 Received from BeeTek:", data);
+
+        if (mainWindow) {
+          mainWindow.webContents.send("beetek-data", data);
+        }
+      });
+
+      port.on("error", (err) => {
+        console.error("❌ Serial Port Error:", err.message);
+      });
+
+      return; // stop loop — SUCCESS connected
+    } catch (err) {
+      console.log(`❌ ${com} unavailable:`, err.message);
+    }
+  }
+
+  console.log("⚠️ BeeTek device not found on COM1–COM6.");
+}
+
 app.whenReady().then(() => {
   createWindow();
-
-  // 🔍 List available serial ports to find your BeeTek shoe
-  const { SerialPort, ReadlineParser } = require("serialport");
-  const { ReadlineParser: Parser } = require("@serialport/parser-readline");
-
-  SerialPort.list().then((ports) => {
-    console.log("Available serial ports:");
-    ports.forEach((port) => console.log(port.path, port.friendlyName));
-  });
-
-  // ⚙️ Replace COM3 with your BeeTek device’s COM port
-  const port = new SerialPort({
-    path: "COM3", // 👈 change this to your actual port
-    baudRate: 9600, // check BeeTek docs for exact baud rate
-  });
-
-  const parser = port.pipe(new (require("@serialport/parser-readline").ReadlineParser)({ delimiter: "\r\n" }));
-
-  port.on("open", () => {
-    console.log("✅ BeeTek device connected on COM4");
-  });
-
-  parser.on("data", (data) => {
-    console.log("🃏 Received from BeeTek:", data);
-
-    // send to React if needed
-    if (mainWindow) {
-      mainWindow.webContents.send("beetek-data", data);
-    }
-  });
-
-  port.on("error", (err) => {
-    console.error("❌ Serial Port Error:", err.message);
-  });
+  connectToBeeTek(); // try connecting
 });
 
 app.on("window-all-closed", () => {
