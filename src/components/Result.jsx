@@ -12,8 +12,7 @@ const Result = ({
   card /*  joker, andarCards, baharCards */,
 }) => {
 
-  const [maxLimit, setMaxLimit] = useState(null);
-  const [minLimit, setMinLimit] = useState(null);
+ 
 
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
@@ -26,13 +25,7 @@ const Result = ({
   let tempAndar = null;
   let tempBahar = null;
 
-  useEffect(() => {
-      const max = localStorage.setItem("maxLimit",5000);
-      const min = localStorage.setItem("minLimit",500);
   
-      setMaxLimit(max);
-      setMinLimit(min);
-    }, []);
 
   useEffect(() => {
     console.log("cardData: ", card);

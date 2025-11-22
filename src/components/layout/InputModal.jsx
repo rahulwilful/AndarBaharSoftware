@@ -13,7 +13,7 @@ const InputModal = ({show,message}) => {
   
   return (
      <Modal size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
+      aria-labelledby="contained-modal-title-vcenter "
       centered show={show} 
       className={``}
       >
