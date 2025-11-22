@@ -11,14 +11,28 @@ const Result = ({
   children,
   card /*  joker, andarCards, baharCards */,
 }) => {
+
+  const [maxLimit, setMaxLimit] = useState(null);
+  const [minLimit, setMinLimit] = useState(null);
+
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
+
+
 
   const [joker, setJoker] = useState(null);
   const [andarCard, setAndarCard] = useState([]);
   const [baharCard, setBaharCard] = useState([]);
   let tempAndar = null;
   let tempBahar = null;
+
+  useEffect(() => {
+      const max = localStorage.setItem("maxLimit",5000);
+      const min = localStorage.setItem("minLimit",500);
+  
+      setMaxLimit(max);
+      setMinLimit(min);
+    }, []);
 
   useEffect(() => {
     console.log("cardData: ", card);
@@ -86,48 +100,61 @@ const Result = ({
   return (
     <>
       <ModalMessage show={showModal} message={message} />
-      <Container py={0} px={0}  tempBorder  h={"60vh"} classes={" capitalize"}>
-        <div className=" border border-primary  h-100 positio-relative vw-100  ">
-           <div className={`position-absolute d-flex justify-content-center start-0 image w-100 border z-1`}>
-            <img src={TableNoBg} className="" style={{width:"90%"}} />
-          </div>
-          <div className="d-flex tempBorder position-absolute ">
-            <div className="border d-flex  justify-content-center align-items-center">
-              <div className="border   text-center fw-bold mx-2 mb-2">
-                <div className="border">joker</div>
-                <img
-                  style={{ height: "150px" }}
-                  src={joker ? joker.card : BackgroundCard}
-                />
+      <Container py={0} px={0} h={"40vh"} classes={" capitalize"}>
+        <div className=" main  h-100 vw-100  ">
+          <div
+            className="h-100 w-100 d-flex justify-content-center align-items-center  border-bottom border-danger border-2"
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundImage: `url(${TableNoBg})`,
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="d-flex w-100  h-50 ps-4 pe-5 ">
+              <div className=" d-flex  justify-content-center align-items-center">
+                <div className="  d-flex flex-column justify-content-center align-items-center h-100  text-center fw-bold mx-2 mb-2">
+                  <div className="">joker</div>
+                  <img
+                    style={{ height: "50%" }}
+                    src={joker ? joker.card : BackgroundCard}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="gap-3 border w-100">
-              <div className="border w-100">
-                <div className="border text-center fw-bold">andar</div>
-                <img
-                  style={{ height: "150px" }}
-                  src={
-                    andarCard.length > 0
-                      ? andarCard[andarCard.length - 1].card
-                      : BackgroundCard
-                  }
-                />
-              </div>
+              <div
+                className="d-flex h-100 flex-column  justify-content-center w-100"
+                style={{ paddingTop: "1.3rem", paddingBottom: "1.3rem" }}
+              >
+                <div className=" px-2 h-100 w-100 ">
+                  <div className=" border-bottom  text-center mb-1 fw-bold">
+                    andar
+                  </div>
+                  <img
+                    style={{ height: "60%" }}
+                    src={
+                      andarCard.length > 0
+                        ? andarCard[andarCard.length - 1].card
+                        : BackgroundCard
+                    }
+                  />
+                </div>
 
-              <div className="border  fw-bold w-100">
-                <div className="border text-center">bahar</div>
-                <img
-                  style={{ height: "150px" }}
-                  src={
-                    baharCard.length > 0
-                      ? baharCard[baharCard.length - 1].card
-                      : BackgroundCard
-                  }
-                />
+                <div className=" h-100   fw-bold px-2 w-100 ">
+                  <div className="border-bottom text-center mb-1">bahar</div>
+                  <img
+                    style={{ height: "60%" }}
+                    src={
+                      baharCard.length > 0
+                        ? baharCard[baharCard.length - 1].card
+                        : BackgroundCard
+                    }
+                  />
+                </div>
               </div>
             </div>
           </div>
-         
         </div>
       </Container>
       <ToastContainer />

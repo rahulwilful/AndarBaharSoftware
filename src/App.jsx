@@ -8,6 +8,9 @@ import Header from "./components/layout/Header";
 import Analysis from "./components/Analysis";
 
 function App() {
+   const [maxLimit, setMaxLimit] = useState(null);
+    const [minLimit, setMinLimit] = useState(null);
+
   const [cardCode, setCardCode] = useState(null);
   const [card, setCard] = useState(null);
   
@@ -73,6 +76,17 @@ const setCards = (data) => {
   }
 };
 
+useEffect(() => {
+      localStorage.setItem("maxLimit",5000);
+      localStorage.setItem("minLimit",500);
+
+       const max = localStorage.getItem("maxLimit");
+    const min = localStorage.getItem("minLimit");
+  
+      setMaxLimit(max);
+      setMinLimit(min);
+}, []);
+
 
 
   return (
@@ -80,7 +94,7 @@ const setCards = (data) => {
       <div className={`position-absolute  vh-100 vw-100 ${s.container}`}> </div>
 
       <div className={`position-absolute  w-100`}>
-        <Header />
+        <Header max={maxLimit} min={minLimit} />
       <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
       <Analysis />
       
