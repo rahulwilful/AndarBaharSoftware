@@ -28,8 +28,8 @@ const Header = ({ children, max, min, heading }) => {
   const handleKeyDown = (e) => {
     // Check if NumPad7 is pressed AND NumLock is OFF
     if (e.code === "Numpad7" && !e.getModifierState("NumLock")) {
-      console.log("NumLock OFF + Numpad 7 pressed");
-      setOpenForm(!openForm)
+      console.log("openForm- ",openForm)
+      setOpenForm(prev => !prev);
     }
   };
 
@@ -44,7 +44,7 @@ useEffect(()=>{
 
   return (
     <>
-    <InputModal show={openForm} ></InputModal>
+    <InputModal show={openForm} />
       <Container px={0} py={0} h={"6vh"}>
         <div className=" py-2 shadow-lg w-100 px-3 d-flex h-100 justify-content-between align-items-center bg-primary">
           <div className="">min - {minLimit}</div>

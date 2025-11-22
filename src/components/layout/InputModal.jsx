@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
 const InputModal = ({show,message}) => {
-    const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
+  const [openForm,setOpenForm] = useState(false)
+
+  useEffect(()=>{
+    setOpenForm(show)
+  },[show])
+  
   return (
      <Modal size="lg"
       aria-labelledby="contained-modal-title-vcenter"
-      centered show={show} onHide={handleClose}
+      centered show={show} 
       className={``}
       >
        
