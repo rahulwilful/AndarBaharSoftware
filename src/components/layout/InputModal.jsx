@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const InputModal = ({show,message}) => {
+const InputModal = ({show,message,children}) => {
 
   const [openForm,setOpenForm] = useState(false)
 
@@ -18,7 +18,7 @@ const InputModal = ({show,message}) => {
       className={``}
       >
        
-        <Modal.Body className='bg-transperent  d-flex justify-content-center align-items-center ' style={{height:'50vh'}}>  <Modal.Title className='fw-bold fs-1'>jdkajd</Modal.Title></Modal.Body>
+        <Modal.Body className='bg-transperent  d-flex justify-content-center align-items-center ' style={{height:'50vh'}}> {children}</Modal.Body>
        
       </Modal>
   )

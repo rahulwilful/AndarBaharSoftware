@@ -5,7 +5,7 @@ import { CardImage } from "./components/Cards";
 import Result from "./components/Result";
 import s from "./pattern.module.css"
 import Header from "./components/layout/Header";
-import Analysis from "./components/Analysis";
+import Analysis from "./components/analysis/Analysis";
 
 function App() {
    const [maxLimit, setMaxLimit] = useState(null);
