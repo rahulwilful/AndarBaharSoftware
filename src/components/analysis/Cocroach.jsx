@@ -47,7 +47,12 @@ const Cocroach = () => {
           {/* //////////////////////////////////////////////////////////////////// */}
         </div>
         <div className="border border-success border-2 "style={{width:"30vw"}} >
-
+          <div className="d-flex text-center capitalize">
+           <div className="border w-100">card</div>
+           <div className="border w-100">A</div>
+           <div className="border w-100">B</div>
+           
+          </div>
         </div>
       </div>
     </>
