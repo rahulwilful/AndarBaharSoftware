@@ -1,10 +1,11 @@
 import React from "react";
+import s from "./Cocroach.module.css"
 
 const Cocroach = () => {
   return (
     <>
-      <div className="d-flex w-100 border " >
-        <div className="h-50 border border-warning border-3 d-flex justify-content-between " style={{width:"70vw"}} >
+      <div className={`d-flex w-100   ${s.main}`} >
+        <div className="h-50 border border-warning border-3 d-flex justify-content-between h-100" style={{width:"70vw"}} >
           <div className=" ">
             <div
               className=" border"
