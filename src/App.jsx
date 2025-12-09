@@ -6,6 +6,7 @@ import Result from "./components/Result";
 import s from "./pattern.module.css"
 import Header from "./components/layout/Header";
 import Analysis from "./components/analysis/Analysis";
+import Limits from "./components/layout/Limits";
 
 function App() {
    const [maxLimit, setMaxLimit] = useState(null);
@@ -77,14 +78,15 @@ const setCards = (data) => {
 };
 
 useEffect(() => {
-      localStorage.setItem("maxLimit",5000);
-      localStorage.setItem("minLimit",500);
+
+      
 
        const max = localStorage.getItem("maxLimit");
     const min = localStorage.getItem("minLimit");
+
+   
   
-      setMaxLimit(max);
-      setMinLimit(min);
+      
 }, []);
 
 
@@ -93,9 +95,10 @@ useEffect(() => {
     <div className={`position-relative text-light`} style={{ }}>
       <div className={`position-absolute  vh-100 vw-100 ${s.container}`}> </div>
 
-      <div className={`position-absolute  w-100`}>
+      <div className={`position-absolute w-100`}>
         <Header max={maxLimit} min={minLimit} />
       <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
+<Limits />
       <Analysis />
       
      

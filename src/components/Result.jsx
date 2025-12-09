@@ -93,10 +93,10 @@ const Result = ({
   return (
     <>
       <ModalMessage show={showModal} message={message} />
-      <Container py={0} px={0} h={"40vh"} classes={" capitalize"}>
-        <div className=" main  h-100 vw-100  ">
+      <Container py={0}  px={0} h={"31vh"} classes={" capitalize"}>
+        <div className="   h-100 w-100  ">
           <div
-            className="h-100 w-100 d-flex justify-content-center align-items-center  border-bottom border-danger border-2"
+            className="h-100  w-100 d-flex justify-content-center align-items-center  "
             style={{
               width: "100%",
               height: "100%",
@@ -106,26 +106,26 @@ const Result = ({
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div className="d-flex w-100  h-50 ps-4 pe-5 ">
-              <div className=" d-flex  justify-content-center align-items-center">
+            <div style={{width:"90%"}} className="d-flex   h-50 ps-4 pe-5 ">
+              <div className=" d-flex   justify-content-center align-items-center">
                 <div className="  d-flex flex-column justify-content-center align-items-center h-100  text-center fw-bold mx-2 mb-2">
-                  <div className="">joker</div>
+                  <div className=" border-bottom w-100  text-center fs-3 mb-1 fw-bold">Joker</div>
                   <img
-                    style={{ height: "50%" }}
+                    style={{ height: "40%" }}
                     src={joker ? joker.card : BackgroundCard}
                   />
                 </div>
               </div>
               <div
-                className="d-flex h-100 flex-column  justify-content-center w-100"
+                className="d-flex  h-100 flex-column  justify-content-center w-100"
                 style={{ paddingTop: "1.3rem", paddingBottom: "1.3rem" }}
               >
-                <div className=" px-2 h-100 w-100 ">
-                  <div className=" border-bottom  text-center mb-1 fw-bold">
+                <div className=" px-2  h-50 w-100 ">
+                  <div className=" border-bottom fs-3  text-center mb-1 fw-bold">
                     andar
                   </div>
                   <img
-                    style={{ height: "60%" }}
+                    style={{ height: "80%" }}
                     src={
                       andarCard.length > 0
                         ? andarCard[andarCard.length - 1].card
@@ -134,10 +134,10 @@ const Result = ({
                   />
                 </div>
 
-                <div className=" h-100   fw-bold px-2 w-100 ">
-                  <div className="border-bottom text-center mb-1">bahar</div>
+                <div className=" h-50    px-2 w-100 ">
+                  <div className="border-bottom   fw-bold text-center fs-3 mb-1">bahar</div>
                   <img
-                    style={{ height: "60%" }}
+                    style={{ height: "80%" }}
                     src={
                       baharCard.length > 0
                         ? baharCard[baharCard.length - 1].card

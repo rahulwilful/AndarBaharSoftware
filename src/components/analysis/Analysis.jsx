@@ -10,7 +10,7 @@ import Container from '../layout/Container'
 const Analysis = () => {
   return (
     <>
-    <Container  py={0} px={0} h={"54vh"}  classes={" "}>
+    <Container  py={0} px={1} h={"54vh"} noContainer={true}  classes={" "}>
 
     <div className={`h-100  w-100 `}>
         
