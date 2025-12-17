@@ -7,6 +7,7 @@ import s from "./pattern.module.css"
 import Header from "./components/layout/Header";
 import Analysis from "./components/analysis/Analysis";
 import Limits from "./components/layout/Limits";
+import { useSelector } from "react-redux";
 
 function App() {
    const [maxLimit, setMaxLimit] = useState(null);
@@ -20,6 +21,10 @@ function App() {
   const [andarCards, setAndarCards] = useState([]);
   const [baharCards, setBaharCards] = useState([]);
   const nextIsAndar = useRef(true);
+
+  const [resultData,setResultData] = useState([])
+
+  const result = useSelector(state=>state.resultStore)
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -85,7 +90,7 @@ useEffect(() => {
     const min = localStorage.getItem("minLimit");
 
    
-  
+    console.log("result", result)
       
 }, []);
 
@@ -99,7 +104,7 @@ useEffect(() => {
         <Header max={maxLimit} min={minLimit} />
       <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
 <Limits />
-      <Analysis />
+      <Analysis winners={resultData} />
       
      
         </div>

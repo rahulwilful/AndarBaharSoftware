@@ -1,20 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ResultData from "./ResultData";
 import Result from "../Result";
 import Cocroach from "./Cocroach";
 import Container from "../layout/Container";
+import { useDispatch } from "react-redux";
+import { addData, deleteAllData, deleteLastData, slice10FromFront } from "../../redux/actions/resultAction";
+
 
 const Analysis = () => {
+    const [resultData, setResultData] = useState(["A"]);
+    const dispatch = useDispatch()
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+
+      if(e.key === "l" || e.key === "L" ){
+        dispatch(deleteLastData())
+        return
+      }
+
+       if(e.key === "f" || e.key === "f" ){
+        dispatch(slice10FromFront())
+        return
+      }
+
+      if(e.key === "d" || e.key === "D" ){
+        dispatch(deleteAllData())
+        return
+      }
+
+      if (!e.getModifierState("NumLock")) return;
+
+      if (e.code === "Numpad7") {
+        console.log("A");
+        
+        dispatch(addData("A"))
+        return
+      }
+
+      if (e.code === "Numpad9") {
+        console.log("B");
+        
+        dispatch(addData("B"))
+        return
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+
   return (
     <>
       <Container py={0} px={3} h={"54vh"} noContainer={true} classes={" "}>
         <div className={`h-100  w-100 d-flex flex-column gap-2`}>
-          <ResultData
-            results={["A", "B", "A", "A", "B", "A", "B", "B", "A", "A"]}
-          />
+          <ResultData />
           <Cocroach />
-        </div>
-      </Container>
+      </div>
+    </Container>
     </>
   );
 };

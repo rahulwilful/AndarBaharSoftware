@@ -1,19 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./ResultData.module.css";
+import { useSelector } from "react-redux";
 
 const ResultData = ({ results }) => {
   // Ensure only the last 10 results are displayed
-  const displayedResults = results.slice(-10);
-  const [sample, setSample] = useState(
-    Array.from({ length: 10 }, () =>
-      Array.from({ length: 28 }, () => (Math.random() < 0.5 ? "A" : "B"))
-    )
+
+  const result = useSelector((state) => state.resultStore);
+
+  const rows = 10;
+  const cols = 28;
+  const [displayedResult, setDisplayResult] = useState(
+    Array.from({ length: rows }, () => Array.from({ length: cols }))
+  );
+  let tempResult = Array.from(
+    Array.from({ length: rows }, () => Array.from({ length: cols }))
   );
 
+  useEffect(() => {
+    manageResult();
+  }, [result]);
+
+  const manageResult = () => {
+    console.log("result: ",result)
+    const tempResult = buildGridColumnWise(result, rows, cols);
+    setDisplayResult(tempResult);
+  };
+
+  const buildGridColumnWise = (results, rows, cols) => {
+  const grid = Array.from({ length: rows }, () =>
+    Array(cols).fill(null)
+  );
+
+  let index = 0;
+
+  for (let col = 0; col < cols; col++) {
+    for (let row = 0; row < rows; row++) {
+      if (index >= results.length) return grid;
+      grid[row][col] = results[index++];
+    }
+  }
+
+  return grid;
+};
+
+
   return (
-    <div className={`w-100 main mb-1 overflow-hidden d-flex justify-content-center ${s.main}`}>
+    <div
+      className={`w-100 main mb-1 overflow-hidden d-flex justify-content-center ${s.main} overflow-scroll`}
+    >
       <div className="d-flex  flex-column">
-        {sample.map((column, colIndex) => (
+        {displayedResult.map((column, colIndex) => (
           <div className="d-flex gap-1" key={colIndex}>
             {column.map((row, rowIndex) => (
               <div

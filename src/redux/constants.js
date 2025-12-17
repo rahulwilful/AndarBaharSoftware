@@ -1,0 +1,4 @@
+export const ADD_DATA = "ADD_DATA"
+export const DELETE_LAST_DATA = "DELETE_LAST_DATA"
+export const DELETE_ALL_DATA = "DELETE_ALL_DATA"
+export const SLICE_10_FROM_FRONT = "SLICE_10_FROM_FRONT"

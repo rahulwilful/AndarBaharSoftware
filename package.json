@@ -17,6 +17,7 @@
     "app:build": "npm run build:for:electron && npm run electron:builder"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.9.0",
     "bootstrap": "^5.3.8",
     "concurrently": "^9.1.2",
@@ -25,7 +26,9 @@
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
     "react-toastify": "^11.0.5",
+    "redux": "^5.0.1",
     "serialport": "^13.0.0",
     "wait-on": "^8.0.3"
   },
