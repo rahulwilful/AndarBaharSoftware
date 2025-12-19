@@ -46,7 +46,7 @@ const ResultData = ({ results }) => {
 
   return (
     <div
-      className={`w-100 main mb-1 overflow-hidden d-flex justify-content-center ${s.main} overflow-scroll`}
+      className={`w-100 main mb-1 overflow-hidden d-flex justify-content-center ${s.main} overflow-scrol`}
     >
       <div className="d-flex  flex-column">
         {displayedResult.map((column, colIndex) => (

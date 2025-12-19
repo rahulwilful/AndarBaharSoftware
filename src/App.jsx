@@ -101,10 +101,10 @@ useEffect(() => {
       <div className={`position-absolute  vh-100 vw-100 ${s.container}`}> </div>
 
       <div className={`position-absolute w-100`}>
-        <Header max={maxLimit} min={minLimit} />
+{/*         <Header max={maxLimit} min={minLimit} />
       <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
 <Limits />
-      <Analysis winners={resultData} />
+ */}      <Analysis winners={resultData} />
       
      
         </div>
