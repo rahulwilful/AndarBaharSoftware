@@ -12,6 +12,22 @@ const Result = ({
   card /*  joker, andarCards, baharCards */,
 }) => {
 
+  let tempStates = {
+
+   "face": { name: '0', value: 0, andarWins:0, baharWins:0  },
+    "1":{ name: '1', value: 1, andarWins:0, baharWins:0  },
+    "2":{ name: '2', value: 2, andarWins:0, baharWins:0  },
+    "3":{ name: '3', value: 3, andarWins:0, baharWins:0  },
+    "4":{ name: '4', value: 4, andarWins:0, baharWins:0  },
+    "5":{ name: '5', value: 5, andarWins:0, baharWins:0  },
+    "6":{ name: '6', value: 6, andarWins:0, baharWins:0  },
+    "7":{ name: '7', value: 7, andarWins:0, baharWins:0  },
+    "8":{ name: '8', value: 8, andarWins:0, baharWins:0  },
+    "9":{ name: '9', value: 9, andarWins:0, baharWins:0  },
+    "10":{ name: '10', value: 10, andarWins:0, baharWins:0  }
+  }
+  
+
  
 
   const [showModal, setShowModal] = useState(false);
@@ -58,6 +74,8 @@ const Result = ({
     if (joker?.value && nextAndar == "0" && card?.value == joker?.value) {
       console.log("bahar wins");
       setMessage("Bahar Wins");
+      setStatsForBahar(joker,card)
+
       setShowModal(true);
       // toast("Bahar wins",{autoClose: 1000,});
     }
@@ -66,9 +84,33 @@ const Result = ({
       console.log("andar wins");
       //toast("Andar wins",{autoClose: 1000,});
       setMessage("Andar Wins");
+      setStatsForAndar(joker,card)
       setShowModal(true);
     }
   }, [card]);
+
+  const setStatsForAndar = (joker,card) => {
+    const name = card.value
+    if(card.value > 10){
+      tempStates.face.andarWins++
+    }else{      
+      tempStates.name.andarWins++
+    }
+
+    console.log("tempStates: ",tempStates)
+
+  }
+
+  const setStatsForBahar = () => {
+  const name = card.value
+    if(card.value > 10){
+      tempStates.face.baharWins++
+    }else{      
+      tempStates.name.baharWins++
+    }
+
+    console.log("tempStates: ",tempStates)
+  }
 
   const clearCards = () => {
     console.log("Cards cleared manually");
