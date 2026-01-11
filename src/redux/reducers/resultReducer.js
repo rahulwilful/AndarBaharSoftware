@@ -6,6 +6,7 @@ import {
 } from "../constants";
 
 const initialState = [];
+const cardStates = []
 
 export const resultReducer = (state = initialState, action) => {
   switch (action.type) {

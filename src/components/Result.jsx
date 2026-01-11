@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { Modal } from "bootstrap";
 import ModalMessage from "./layout/Modal";
 import { TableNoBg } from "./Images";
+import { useDispatch, useSelector } from "react-redux";
+import { addData, setStates } from "../redux/actions/resultAction";
 
 const Result = ({
   clearSetCard,
@@ -12,35 +14,13 @@ const Result = ({
   card /*  joker, andarCards, baharCards */,
 }) => {
 
-  const [states,setStates] = useState([
 
-    { name: "0", value: 0, andarWins: 0, baharWins: 0 },
-    { name: "1", value: 1, andarWins: 0, baharWins: 0 },
-    { name: "2", value: 2, andarWins: 0, baharWins: 0 },
-    { name: "3", value: 3, andarWins: 0, baharWins: 0 },
-    { name: "4", value: 4, andarWins: 0, baharWins: 0 },
-    { name: "5", value: 5, andarWins: 0, baharWins: 0 },
-    { name: "6", value: 6, andarWins: 0, baharWins: 0 },
-    { name: "7", value: 7, andarWins: 0, baharWins: 0 },
-    { name: "8", value: 8, andarWins: 0, baharWins: 0 },
-    { name: "9", value: 9, andarWins: 0, baharWins: 0 },
-    { name: "10", value: 10, andarWins: 0, baharWins: 0 },
-  ])
 
-  let tempStates = [
+  const cardStates = useSelector((state) => state.cardStore)
+   const dispatch = useDispatch()
 
-    { name: "0", value: 0, andarWins: 0, baharWins: 0 },
-    { name: "1", value: 1, andarWins: 0, baharWins: 0 },
-    { name: "2", value: 2, andarWins: 0, baharWins: 0 },
-    { name: "3", value: 3, andarWins: 0, baharWins: 0 },
-    { name: "4", value: 4, andarWins: 0, baharWins: 0 },
-    { name: "5", value: 5, andarWins: 0, baharWins: 0 },
-    { name: "6", value: 6, andarWins: 0, baharWins: 0 },
-    { name: "7", value: 7, andarWins: 0, baharWins: 0 },
-    { name: "8", value: 8, andarWins: 0, baharWins: 0 },
-    { name: "9", value: 9, andarWins: 0, baharWins: 0 },
-    { name: "10", value: 10, andarWins: 0, baharWins: 0 },
-  ]
+
+  
   
 
   const [showModal, setShowModal] = useState(false);
@@ -51,6 +31,8 @@ const Result = ({
   const [baharCard, setBaharCard] = useState([]);
   let tempAndar = null;
   let tempBahar = null;
+
+ 
 
   useEffect(() => {
     console.log("cardData: ", card);
@@ -84,6 +66,7 @@ const Result = ({
       console.log("bahar wins");
       setMessage("Bahar Wins");
       setStatsForBahar(joker, card);
+      dispatch(addData('B'))
 
       setShowModal(true);
       // toast("Bahar wins",{autoClose: 1000,});
@@ -94,33 +77,38 @@ const Result = ({
       //toast("Andar wins",{autoClose: 1000,});
       setMessage("Andar Wins");
       setStatsForAndar(joker, card);
+      dispatch(addData('A'))
       setShowModal(true);
     }
   }, [card]);
 
-  const setStatsForAndar = (joker, card) => {
-    console.log("card",card)
-    const name = card.value;
-    if (card.value > 10) {
-      tempStates[0].andarWins++;
-    } else {
-      tempStates[name].andarWins++;
-    }
+const setStatsForAndar = (joker, card) => {
+  const name = card.value;
+  // Create a deep copy of the state
+  const tempStates = cardStates.map(item => ({ ...item }));
 
-    console.log("tempStates: ", tempStates);
-  };
+ 
+    tempStates[name] = { ...tempStates[name], andarWins: tempStates[name].andarWins + 1 };
+  
+  
 
-  const setStatsForBahar = () => {
-     console.log("card",card)
-    const name = card.value;
-    if (card.value > 10) {
-      tempStates[0].baharWins++;
-    } else {
-      tempStates[name].baharWins++;
-    }
+  console.log("tempStates: ",tempStates)
+  dispatch(setStates(tempStates));
+};
 
-    console.log("tempStates: ", tempStates);
-  };
+
+const setStatsForBahar = (joker, card) => {
+  const name = card.value;
+  const tempStates = cardStates.map(item => ({ ...item }));
+
+    tempStates[name] = { ...tempStates[name], baharWins: tempStates[name].baharWins + 1 };
+  
+
+
+  console.log("tempStates: ",tempStates)
+  dispatch(setStates(tempStates));
+};
+
 
   const clearCards = () => {
     console.log("Cards cleared manually");
@@ -174,7 +162,7 @@ const Result = ({
                 className="d-flex  h-100 flex-column  justify-content-center w-100"
                 style={{ paddingTop: "1.3rem", paddingBottom: "1.3rem" }}
               >
-                <div className=" px-2  h-50 w-100 ">
+                <div className=" px-2  h-50 w-100 " style={{position:'relative'}}>
                   <div className=" border-bottom fs-3  text-center mb-1 fw-bold">
                     andar
                   </div>
@@ -200,7 +188,7 @@ const Result = ({
                   )}
                 </div>
 
-                <div className=" h-50    px-2 w-100 ">
+                <div className=" h-50    px-2 w-100 " style={{position:'relative'}}>
                   <div className="border-bottom   fw-bold text-center fs-3 mb-1">
                     bahar
                   </div>

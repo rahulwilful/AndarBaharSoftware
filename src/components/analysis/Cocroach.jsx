@@ -5,6 +5,12 @@ import { useSelector } from "react-redux";
 const CardTable = () => {
   const values = Array.from({ length: 11 }, (_, i) => i); // 0 to 10
 
+  const cardStates = useSelector((state) => state.cardStore)
+
+  useEffect(()=>{
+    console.log("cardState: ",cardStates)
+  },[cardStates])
+
   return (
     <div className=" h-100 w-100">
       <table className=" w-100 text-center h-100">
@@ -16,11 +22,11 @@ const CardTable = () => {
           </tr>
         </thead>
         <tbody>
-          {values.map((val) => (
-            <tr key={val}>
-              <td className="border">{val}</td>
-              <td className="border">{val}</td>
-              <td className="border">{val}</td>
+          {cardStates.map((card) => (
+            <tr key={card} className={`${card.name == 0 ? 'd-none':''}`}>
+              <td className="border">{card.name}</td>
+              <td className="border">{card.andarWins}</td>
+              <td className="border">{card.baharWins}</td>
             </tr>
           ))}
         </tbody>
@@ -134,7 +140,7 @@ const slideBack = (grid) => {
           className="border border-success border-2 h-100 "
           style={{ width: "30vw" }}
         >
-          <div className="d-flex text-center h-100 capitalize">
+          <div className="d-flex text-center   h-100 capitalize">
             <CardTable />
             {/* <div className="border w-100 h-100">card</div>
             <div className="border w-100">A</div>

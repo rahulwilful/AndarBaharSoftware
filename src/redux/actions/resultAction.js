@@ -2,7 +2,9 @@ import {
   ADD_DATA,
   DELETE_LAST_DATA,
   DELETE_ALL_DATA,
-  SLICE_10_FROM_FRONT
+  SLICE_10_FROM_FRONT,
+  SET_STATES,
+  DELETE_STATES
 } from "../constants";
 
 export function addData(item) {
@@ -29,4 +31,17 @@ export function slice10FromFront() {
   return {
     type: SLICE_10_FROM_FRONT
   };
+}
+
+export function setStates (item){
+  return{
+    type:SET_STATES,
+    data:item
+  }
+}
+
+export function deleteStates () {
+  return {
+    type:DELETE_STATES
+  }
 }

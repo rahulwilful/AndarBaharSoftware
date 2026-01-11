@@ -4,7 +4,7 @@ import Result from "../Result";
 import Cocroach from "./Cocroach";
 import Container from "../layout/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { addData, deleteAllData, deleteLastData, slice10FromFront } from "../../redux/actions/resultAction";
+import { addData, deleteAllData, deleteLastData, deleteStates, slice10FromFront } from "../../redux/actions/resultAction";
 
 
 const Analysis = () => {
@@ -40,6 +40,7 @@ const Analysis = () => {
 
       if(e.key === "d" || e.key === "D" ){
         dispatch(deleteAllData())
+        dispatch(deleteStates())
         return
       }
 
@@ -80,7 +81,7 @@ const Analysis = () => {
     <>
       <Container py={0} px={3} h={"54vh"} noContainer={true} classes={" "}>
         <div className={`h-100  w-100 d-flex flex-column gap-2`}>
-          {/* <ResultData /> */}
+          <ResultData />
           <Cocroach />
       </div>
     </Container>
