@@ -8,6 +8,7 @@ import Header from "./components/layout/Header";
 import Analysis from "./components/analysis/Analysis";
 import Limits from "./components/layout/Limits";
 import { useSelector } from "react-redux";
+import TempForTest from "./TempForTest";
 
 function App() {
    const [maxLimit, setMaxLimit] = useState(null);
@@ -38,6 +39,32 @@ function App() {
     localStorage.setItem("nextAndar",0)
   }, []);
 
+   useEffect(() => {
+      const handleKeyDown = (e) => {
+  
+          
+            if(e.key === "r" || e.key === "R" ){
+                    getRandomCardCode() 
+
+                  return
+                }
+              }
+  
+      
+      
+  
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
+  const  getRandomCardCode = () => {
+  const randomIndex = Math.floor(Math.random() * CardImage.length);
+  const randomCard = CardImage[randomIndex];
+  console.log(randomCard.cardCode);
+  displayCard(randomCard.cardCode)
+  return randomCard.cardCode;
+}
+
   const displayCard = (data) => {
    //onsole.log("displayCard from BeeTek:", data);
 
@@ -45,6 +72,7 @@ function App() {
       if (data == CardImage[i].cardCode) {
         setCard(CardImage[i]);
         setCardCode(CardImage[i].card);
+        console.log(CardImage[i].card)
        // setCards(CardImage[i].card);
       }
     }
@@ -101,10 +129,15 @@ useEffect(() => {
       <div className={`position-absolute  vh-100 vw-100 ${s.container}`}> </div>
 
       <div className={`position-absolute w-100`}>
-{/*         <Header max={maxLimit} min={minLimit} />
-      <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
+        <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
+{/*
+        <TempForTest clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
+
+<Header max={maxLimit} min={minLimit} />
 <Limits />
- */}      <Analysis winners={resultData} />
+
+*/}
+<Analysis winners={resultData} />
       
      
         </div>

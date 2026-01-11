@@ -1,47 +1,28 @@
 import React, { useEffect, useState } from "react";
-import Container from "./layout/Container";
-import { BackgroundCard, CardImage } from "./Cards";
-import { ToastContainer, toast } from "react-toastify";
-import { Modal } from "bootstrap";
-import ModalMessage from "./layout/Modal";
-import { TableNoBg } from "./Images";
+import Container from "./components/layout/Container";
+import { BackgroundCard, CardImage } from "./components/Cards";
+import { ToastContainer } from "react-toastify";
+import ModalMessage from "./components/layout/Modal";
+import { TableNoBg } from "./components/Images";
 
-const Result = ({
+const TempForTest = ({
   clearSetCard,
   children,
   card /*  joker, andarCards, baharCards */,
 }) => {
-
-  const [states,setStates] = useState([
-
-    { name: "0", value: 0, andarWins: 0, baharWins: 0 },
-    { name: "1", value: 1, andarWins: 0, baharWins: 0 },
-    { name: "2", value: 2, andarWins: 0, baharWins: 0 },
-    { name: "3", value: 3, andarWins: 0, baharWins: 0 },
-    { name: "4", value: 4, andarWins: 0, baharWins: 0 },
-    { name: "5", value: 5, andarWins: 0, baharWins: 0 },
-    { name: "6", value: 6, andarWins: 0, baharWins: 0 },
-    { name: "7", value: 7, andarWins: 0, baharWins: 0 },
-    { name: "8", value: 8, andarWins: 0, baharWins: 0 },
-    { name: "9", value: 9, andarWins: 0, baharWins: 0 },
-    { name: "10", value: 10, andarWins: 0, baharWins: 0 },
-  ])
-
-  let tempStates = [
-
-    { name: "0", value: 0, andarWins: 0, baharWins: 0 },
-    { name: "1", value: 1, andarWins: 0, baharWins: 0 },
-    { name: "2", value: 2, andarWins: 0, baharWins: 0 },
-    { name: "3", value: 3, andarWins: 0, baharWins: 0 },
-    { name: "4", value: 4, andarWins: 0, baharWins: 0 },
-    { name: "5", value: 5, andarWins: 0, baharWins: 0 },
-    { name: "6", value: 6, andarWins: 0, baharWins: 0 },
-    { name: "7", value: 7, andarWins: 0, baharWins: 0 },
-    { name: "8", value: 8, andarWins: 0, baharWins: 0 },
-    { name: "9", value: 9, andarWins: 0, baharWins: 0 },
-    { name: "10", value: 10, andarWins: 0, baharWins: 0 },
-  ]
-  
+  let tempStates = {
+    face: { name: "0", value: 0, andarWins: 0, baharWins: 0 },
+    1: { name: "1", value: 1, andarWins: 0, baharWins: 0 },
+    2: { name: "2", value: 2, andarWins: 0, baharWins: 0 },
+    3: { name: "3", value: 3, andarWins: 0, baharWins: 0 },
+    4: { name: "4", value: 4, andarWins: 0, baharWins: 0 },
+    5: { name: "5", value: 5, andarWins: 0, baharWins: 0 },
+    6: { name: "6", value: 6, andarWins: 0, baharWins: 0 },
+    7: { name: "7", value: 7, andarWins: 0, baharWins: 0 },
+    8: { name: "8", value: 8, andarWins: 0, baharWins: 0 },
+    9: { name: "9", value: 9, andarWins: 0, baharWins: 0 },
+    10: { name: "10", value: 10, andarWins: 0, baharWins: 0 },
+  };
 
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
@@ -99,24 +80,22 @@ const Result = ({
   }, [card]);
 
   const setStatsForAndar = (joker, card) => {
-    console.log("card",card)
     const name = card.value;
     if (card.value > 10) {
-      tempStates[0].andarWins++;
+      tempStates.face.andarWins++;
     } else {
-      tempStates[name].andarWins++;
+      tempStates.name.andarWins++;
     }
 
     console.log("tempStates: ", tempStates);
   };
 
   const setStatsForBahar = () => {
-     console.log("card",card)
     const name = card.value;
     if (card.value > 10) {
-      tempStates[0].baharWins++;
+      tempStates.face.baharWins++;
     } else {
-      tempStates[name].baharWins++;
+      tempStates.name.baharWins++;
     }
 
     console.log("tempStates: ", tempStates);
@@ -158,7 +137,7 @@ const Result = ({
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div style={{ width: "90%" }} className="d-flex   h-50 ps-4 pe-5 ">
+            <div style={{ width: "90%" }} className="d-flex   h-75 ps-4 pe-5 ">
               <div className=" d-flex   justify-content-center align-items-center">
                 <div className="  d-flex flex-column justify-content-center align-items-center h-100  text-center fw-bold mx-2 mb-2">
                   <div className=" border-bottom w-100  text-center fs-3 mb-1 fw-bold">
@@ -174,55 +153,51 @@ const Result = ({
                 className="d-flex  h-100 flex-column  justify-content-center w-100"
                 style={{ paddingTop: "1.3rem", paddingBottom: "1.3rem" }}
               >
-                <div className=" px-2  h-50 w-100 ">
+                <div style={{position:'relative'}} className=" px-2  h-100 w-100 ">
                   <div className=" border-bottom fs-3  text-center mb-1 fw-bold">
                     andar
                   </div>
                   {andarCard.length > 0 ? (
-                    andarCard.map((card, i) => (
-                      <img
+                    andarCard.map((card,i) => (
+
+                        <img
                         className=""
-                        style={{
-                          height: "80%",
-                          position: "absolute",
-                          left: `${i + 3}rem`,
-                        }}
+                        style={{ height: "80%",position:"absolute" , left:`${i+3}rem` }}
                         src={card?.card}
                         alt="Andar Card"
-                      />
+                        />
                     ))
-                  ) : (
-                    <img
-                      className={``}
-                      style={{ height: "80%" }}
-                      src={BackgroundCard}
-                    />
-                  )}
+                  ):(<img
+                    className={``}
+                    style={{ height: "80%" }}
+                    src={BackgroundCard}
+                  />)}
+
+                  
                 </div>
 
-                <div className=" h-50    px-2 w-100 ">
+                <div className=" h-100    px-2 w-100 ">
                   <div className="border-bottom   fw-bold text-center fs-3 mb-1">
                     bahar
                   </div>
                   {baharCard.length > 0 ? (
-                    baharCard.map((card, i) => (
-                      <img
+                    baharCard.map((card,i)=>(
+
+                        <img
                         className={``}
-                        style={{
-                          height: "80%",
-                          position: "absolute",
-                          left: `${i + 3}rem`,
-                        }}
+                        style={{ height: "80%",position:"absolute" , left:`${i+3}rem` }}
                         src={card?.card}
-                      />
+                        />
                     ))
-                  ) : (
+                ):(
                     <img
-                      className={``}
-                      style={{ height: "80%" }}
-                      src={BackgroundCard}
-                    />
-                  )}
+                    className={``}
+                    style={{ height: "80%" }}
+                    src={BackgroundCard}
+                  />
+                )}
+                    
+                  
                 </div>
               </div>
             </div>
@@ -234,4 +209,4 @@ const Result = ({
   );
 };
 
-export default Result;
+export default TempForTest;
