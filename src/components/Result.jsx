@@ -13,29 +13,32 @@ const Result = ({
   children,
   card /*  joker, andarCards, baharCards */,
 }) => {
-
-
-
-  const cardStates = useSelector((state) => state.cardStore)
-   const dispatch = useDispatch()
-
-
-  
-  
+  const cardStates = useSelector((state) => state.cardStore);
+  const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
+  const [cleardCards, setCleardCards] = useState(true);
   const [message, setMessage] = useState("");
 
   const [joker, setJoker] = useState(null);
   const [andarCard, setAndarCard] = useState([]);
   const [baharCard, setBaharCard] = useState([]);
+  const tempArray = [];
   let tempAndar = null;
   let tempBahar = null;
 
- 
+  useEffect(() => {
+    console.log("andarCard ", andarCard);
+  }, [andarCard]);
+
+  useEffect(() => {
+    console.log("baharCard ", baharCard);
+  }, [baharCard]);
 
   useEffect(() => {
     console.log("cardData: ", card);
+    if (showModal == true) return;
+    if (cleardCards == false) return;
 
     if (!joker) {
       setJoker(card);
@@ -66,9 +69,11 @@ const Result = ({
       console.log("bahar wins");
       setMessage("Bahar Wins");
       setStatsForBahar(joker, card);
-      dispatch(addData('B'))
+      dispatch(addData("B"));
 
+      setCleardCards(false);
       setShowModal(true);
+      autoHideResult();
       // toast("Bahar wins",{autoClose: 1000,});
     }
 
@@ -77,38 +82,44 @@ const Result = ({
       //toast("Andar wins",{autoClose: 1000,});
       setMessage("Andar Wins");
       setStatsForAndar(joker, card);
-      dispatch(addData('A'))
+      dispatch(addData("A"));
+      setCleardCards(false);
       setShowModal(true);
+      autoHideResult();
     }
   }, [card]);
 
-const setStatsForAndar = (joker, card) => {
-  const name = card.value;
-  // Create a deep copy of the state
-  const tempStates = cardStates.map(item => ({ ...item }));
+  const autoHideResult = () => {
+    setTimeout(() => {
+      setShowModal(false);
+    }, 5000);
+  };
 
- 
-    tempStates[name] = { ...tempStates[name], andarWins: tempStates[name].andarWins + 1 };
-  
-  
+  const setStatsForAndar = (joker, card) => {
+    const name = card.value;
+    const tempStates = cardStates.map((item) => ({ ...item }));
 
-  console.log("tempStates: ",tempStates)
-  dispatch(setStates(tempStates));
-};
+    tempStates[name] = {
+      ...tempStates[name],
+      andarWins: tempStates[name].andarWins + 1,
+    };
 
+    console.log("tempStates: ", tempStates);
+    dispatch(setStates(tempStates));
+  };
 
-const setStatsForBahar = (joker, card) => {
-  const name = card.value;
-  const tempStates = cardStates.map(item => ({ ...item }));
+  const setStatsForBahar = (joker, card) => {
+    const name = card.value;
+    const tempStates = cardStates.map((item) => ({ ...item }));
 
-    tempStates[name] = { ...tempStates[name], baharWins: tempStates[name].baharWins + 1 };
-  
+    tempStates[name] = {
+      ...tempStates[name],
+      baharWins: tempStates[name].baharWins + 1,
+    };
 
-
-  console.log("tempStates: ",tempStates)
-  dispatch(setStates(tempStates));
-};
-
+    console.log("tempStates: ", tempStates);
+    dispatch(setStates(tempStates));
+  };
 
   const clearCards = () => {
     console.log("Cards cleared manually");
@@ -117,6 +128,8 @@ const setStatsForBahar = (joker, card) => {
     setBaharCard([]); // clear bahar cards
     setShowModal(false);
     clearSetCard(); // call parent to clear card if needed
+    setCleardCards(true);
+
     localStorage.setItem("nextAndar", 0);
   };
 
@@ -130,6 +143,36 @@ const setStatsForBahar = (joker, card) => {
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.code === "Numpad7") {
+        console.log("A");
+
+        
+
+        setMessage("Andar Wins");
+        setShowModal(true);
+        dispatch(addData("A"));
+        autoHideResult();
+        return;
+      }
+
+      if (e.code === "Numpad9") {
+        
+        console.log("B");
+        setMessage("Bahar Wins");
+        setShowModal(true);
+        dispatch(addData("B"));
+        autoHideResult();
+        return;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <>
       <ModalMessage show={showModal} message={message} />
@@ -146,13 +189,18 @@ const setStatsForBahar = (joker, card) => {
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div style={{ width: "90%" }} className="d-flex   h-50 ps-4 pe-5 ">
+            <div
+              key={joker}
+              style={{ width: "90%" }}
+              className="d-flex   h-50 ps-4 pe-5 "
+            >
               <div className=" d-flex   justify-content-center align-items-center">
                 <div className="  d-flex flex-column justify-content-center align-items-center h-100  text-center fw-bold mx-2 mb-2">
                   <div className=" border-bottom w-100  text-center fs-3 mb-1 fw-bold">
                     Joker
                   </div>
                   <img
+                    className={`${joker ? "" : ""}`}
                     style={{ height: "40%" }}
                     src={joker ? joker.card : BackgroundCard}
                   />
@@ -162,7 +210,10 @@ const setStatsForBahar = (joker, card) => {
                 className="d-flex  h-100 flex-column  justify-content-center w-100"
                 style={{ paddingTop: "1.3rem", paddingBottom: "1.3rem" }}
               >
-                <div className=" px-2  h-50 w-100 " style={{position:'relative'}}>
+                <div
+                  className=" px-2  h-50 w-100 "
+                  style={{ position: "relative" }}
+                >
                   <div className=" border-bottom fs-3  text-center mb-1 fw-bold">
                     andar
                   </div>
@@ -181,14 +232,17 @@ const setStatsForBahar = (joker, card) => {
                     ))
                   ) : (
                     <img
-                      className={``}
+                      className={`visually-hiddens`}
                       style={{ height: "80%" }}
                       src={BackgroundCard}
                     />
                   )}
                 </div>
 
-                <div className=" h-50    px-2 w-100 " style={{position:'relative'}}>
+                <div
+                  className=" h-50    px-2 w-100 "
+                  style={{ position: "relative" }}
+                >
                   <div className="border-bottom   fw-bold text-center fs-3 mb-1">
                     bahar
                   </div>
@@ -206,7 +260,7 @@ const setStatsForBahar = (joker, card) => {
                     ))
                   ) : (
                     <img
-                      className={``}
+                      className={`visually-hiddens`}
                       style={{ height: "80%" }}
                       src={BackgroundCard}
                     />

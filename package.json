@@ -17,6 +17,7 @@
     "app:build": "npm run build:for:electron && npm run electron:builder"
   },
   "dependencies": {
+    "@fireworks-js/react": "^2.10.8",
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.9.0",
     "bootstrap": "^5.3.8",
