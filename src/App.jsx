@@ -58,7 +58,7 @@ function App() {
     }, []);
 
   const  getRandomCardCode = () => {
-  const randomIndex = Math.floor(Math.random() * CardImage.length);
+  const randomIndex = Math.floor(Math.random() * CardImage.length-1);
   const randomCard = CardImage[randomIndex];
   console.log(randomCard.cardCode);
   displayCard(randomCard.cardCode)
@@ -130,11 +130,11 @@ useEffect(() => {
 
       <div className={`position-absolute w-100`}>
         <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
+        <Limits />
 {/*
+        <Header max={maxLimit} min={minLimit} />
         <TempForTest clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
 
-<Header max={maxLimit} min={minLimit} />
-<Limits />
 
 */}
 <Analysis winners={resultData} />

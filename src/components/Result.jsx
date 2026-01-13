@@ -7,11 +7,12 @@ import ModalMessage from "./layout/Modal";
 import { TableNoBg } from "./Images";
 import { useDispatch, useSelector } from "react-redux";
 import { addData, setStates } from "../redux/actions/resultAction";
+import SlideDownImage from "./animation/SlideDownImage";
 
 const Result = ({
   clearSetCard,
   children,
-  card /*  joker, andarCards, baharCards */,
+  card /*  joker, andarCards, baharCardss */,
 }) => {
   const cardStates = useSelector((state) => state.cardStore);
   const dispatch = useDispatch();
@@ -21,19 +22,22 @@ const Result = ({
   const [message, setMessage] = useState("");
 
   const [joker, setJoker] = useState(null);
-  const [andarCard, setAndarCard] = useState([]);
-  const [baharCard, setBaharCard] = useState([]);
+  const [andarCards, setAndarCards] = useState([]);
+  const [baharCards, setBaharCards] = useState([]);
+
+  const isLimitFormOpen = useSelector((state) => state.formStore)
+
   const tempArray = [];
   let tempAndar = null;
   let tempBahar = null;
 
   useEffect(() => {
-    console.log("andarCard ", andarCard);
-  }, [andarCard]);
+    console.log("andarCards ", andarCards);
+  }, [andarCards]);
 
   useEffect(() => {
-    console.log("baharCard ", baharCard);
-  }, [baharCard]);
+    console.log("baharCards ", baharCards);
+  }, [baharCards]);
 
   useEffect(() => {
     console.log("cardData: ", card);
@@ -48,18 +52,18 @@ const Result = ({
     let nextAndar = localStorage.getItem("nextAndar");
 
     if (nextAndar == 0 || nextAndar == "0") {
-      let temp = baharCard;
+      let temp = baharCards;
       temp.push(card);
-      setBaharCard(temp);
+      setBaharCards(temp);
       console.log("temp: ", temp);
       tempBahar = card;
       localStorage.setItem("nextAndar", 1);
     } else {
-      let temp = andarCard;
+      let temp = andarCards;
       temp.push(card);
-      setAndarCard(temp);
+      setAndarCards(temp);
       console.log("temp: ", temp);
-      //setAndarCard(card);
+      //setAndarCards(card);
       tempAndar = card;
 
       localStorage.setItem("nextAndar", 0);
@@ -92,7 +96,7 @@ const Result = ({
   const autoHideResult = () => {
     setTimeout(() => {
       setShowModal(false);
-    }, 5000);
+    }, 10000);
   };
 
   const setStatsForAndar = (joker, card) => {
@@ -124,8 +128,8 @@ const Result = ({
   const clearCards = () => {
     console.log("Cards cleared manually");
     setJoker(null); // reset joker
-    setAndarCard([]); // clear andar cards
-    setBaharCard([]); // clear bahar cards
+    setAndarCards([]); // clear andar cards
+    setBaharCards([]); // clear bahar cards
     setShowModal(false);
     clearSetCard(); // call parent to clear card if needed
     setCleardCards(true);
@@ -145,33 +149,43 @@ const Result = ({
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.code === "Numpad7") {
-        console.log("A");
+   const handleKeyDown = (e) => {
+     if(isLimitFormOpen == true) return
+     // Avoid repeated firing when key is held down
+     if (e.repeat) return;
 
-        
+     // Ensure it's coming from NUMPAD
+     const isNumpad = e.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
 
-        setMessage("Andar Wins");
-        setShowModal(true);
-        dispatch(addData("A"));
-        autoHideResult();
-        return;
-      }
+     if (isNumpad && e.code === "Numpad7" && e.getModifierState("NumLock")) {
+       console.log("A");
+       setMessage("Andar Wins");
+       setShowModal(true);
+       dispatch(addData("A"));
+       autoHideResult();
+     }
 
-      if (e.code === "Numpad9") {
-        
-        console.log("B");
-        setMessage("Bahar Wins");
-        setShowModal(true);
-        dispatch(addData("B"));
-        autoHideResult();
-        return;
-      }
-    };
+     if (isNumpad && e.code === "Numpad9" && e.getModifierState("NumLock")) {
+       console.log("B");
+       setMessage("Bahar Wins");
+       setShowModal(true);
+       dispatch(addData("B"));
+       autoHideResult();
+     }
+   };
+
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    console.log("baharCards", baharCards.length);
+  }, [baharCards]);
+
+  useEffect(() => {
+    console.log("andarCards", andarCards.length);
+  }, [andarCards]);
 
   return (
     <>
@@ -189,21 +203,27 @@ const Result = ({
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div
-              key={joker}
-              style={{ width: "90%" }}
-              className="d-flex   h-50 ps-4 pe-5 "
-            >
+            <div style={{ width: "90%" }} className="d-flex   h-50 ps-4 pe-5 ">
               <div className=" d-flex   justify-content-center align-items-center">
                 <div className="  d-flex flex-column justify-content-center align-items-center h-100  text-center fw-bold mx-2 mb-2">
                   <div className=" border-bottom w-100  text-center fs-3 mb-1 fw-bold">
                     Joker
                   </div>
-                  <img
-                    className={`${joker ? "" : ""}`}
-                    style={{ height: "40%" }}
-                    src={joker ? joker.card : BackgroundCard}
-                  />
+                  {joker ? (
+                    <SlideDownImage
+                      image={joker ? joker.card : BackgroundCard}
+                      height={"40%"}
+                      position={"static"}
+                      alt="Andar Card"
+                      animationOrder={'down'}
+                    />
+                  ) : (
+                    <img
+                      className={`visually-hiddens`}
+                      style={{ height: "40%" }}
+                      src={BackgroundCard}
+                    />
+                  )}
                 </div>
               </div>
               <div
@@ -217,16 +237,11 @@ const Result = ({
                   <div className=" border-bottom fs-3  text-center mb-1 fw-bold">
                     andar
                   </div>
-                  {andarCard.length > 0 ? (
-                    andarCard.map((card, i) => (
-                      <img
-                        className=""
-                        style={{
-                          height: "80%",
-                          position: "absolute",
-                          left: `${i + 3}rem`,
-                        }}
-                        src={card?.card}
+                  {andarCards.length > 0 ? (
+                    andarCards.map((card, i) => (
+                      <SlideDownImage
+                        image={card?.card}
+                        i={i + 3}
                         alt="Andar Card"
                       />
                     ))
@@ -246,16 +261,12 @@ const Result = ({
                   <div className="border-bottom   fw-bold text-center fs-3 mb-1">
                     bahar
                   </div>
-                  {baharCard.length > 0 ? (
-                    baharCard.map((card, i) => (
-                      <img
-                        className={``}
-                        style={{
-                          height: "80%",
-                          position: "absolute",
-                          left: `${i + 3}rem`,
-                        }}
-                        src={card?.card}
+                  {baharCards.length > 0 ? (
+                    baharCards.map((card, i) => (
+                      <SlideDownImage
+                        image={card?.card}
+                        i={i + 3}
+                        alt="Bahar Card"
                       />
                     ))
                   ) : (

@@ -44,7 +44,8 @@ const Analysis = () => {
         return
       }
 
-      /* if(  e.code === "Numpad7" || e.code === "Numpad9" ){
+      /* 
+      if(  e.code === "Numpad7" || e.code === "Numpad9" ){
         if(result.length >= 280 ){
 
           console.log("resultLength ",result.length)
@@ -55,21 +56,7 @@ const Analysis = () => {
 
       if (!e.getModifierState("NumLock")) return;
 
-      if (e.code === "Numpad7") {
-        console.log("A");
-
-        
-        
-        dispatch(addData("A"))
-        return
-      }
-
-      if (e.code === "Numpad9") {
-        console.log("B");
-        
-        dispatch(addData("B"))
-        return
-      }
+     
     };
 
     window.addEventListener("keydown", handleKeyDown);

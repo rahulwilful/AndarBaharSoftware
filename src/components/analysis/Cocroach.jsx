@@ -22,8 +22,8 @@ const CardTable = () => {
           </tr>
         </thead>
         <tbody>
-          {cardStates.map((card) => (
-            <tr key={card} className={`${card.name == 0 ? 'd-none':''}`}>
+          {cardStates.map((card,i) => (
+            <tr key={i} className={`${card.name == 0 ? 'd-none':''}`}>
               <td className="border">{card.name}</td>
               <td className="border">{card.andarWins}</td>
               <td className="border">{card.baharWins}</td>

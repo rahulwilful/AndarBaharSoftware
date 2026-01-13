@@ -4,7 +4,9 @@ import {
   DELETE_ALL_DATA,
   SLICE_10_FROM_FRONT,
   SET_STATES,
-  DELETE_STATES
+  DELETE_STATES,
+  TOGGLE_LIMIT_FORM,
+  SET_LIMIT_FORM_FALSE
 } from "../constants";
 
 export function addData(item) {
@@ -43,5 +45,18 @@ export function setStates (item){
 export function deleteStates () {
   return {
     type:DELETE_STATES
+  }
+}
+
+export function toggleLimitForm () {
+  return {
+    type:TOGGLE_LIMIT_FORM,
+  }
+}
+
+export function setLimitFormFalse () {
+  return {
+    type:SET_LIMIT_FORM_FALSE,
+    
   }
 }
