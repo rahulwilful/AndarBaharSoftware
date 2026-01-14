@@ -12,7 +12,7 @@ const CardTable = () => {
   },[cardStates])
 
   return (
-    <div className=" h-100 w-100">
+    <div className=" h-100 w-100 fs-5">
       <table className=" w-100 text-center h-100">
         <thead className="border">
           <tr className="capitalize">
