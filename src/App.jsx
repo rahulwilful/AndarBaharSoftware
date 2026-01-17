@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 import "./App.css";
 import { CardImage } from "./components/Cards";
 import Result from "./components/Result";
-import s from "./pattern.module.css"
+import s from "./pattern.module.css";
 import Header from "./components/layout/Header";
 import Analysis from "./components/analysis/Analysis";
 import Limits from "./components/layout/Limits";
@@ -11,21 +11,21 @@ import { useSelector } from "react-redux";
 import TempForTest from "./TempForTest";
 
 function App() {
-   const [maxLimit, setMaxLimit] = useState(null);
-    const [minLimit, setMinLimit] = useState(null);
+  const [maxLimit, setMaxLimit] = useState(null);
+  const [minLimit, setMinLimit] = useState(null);
 
   const [cardCode, setCardCode] = useState(null);
   const [card, setCard] = useState(null);
-  
+
   const jokerRef = useRef("");
   const [joker, setJoker] = useState("");
   const [andarCards, setAndarCards] = useState([]);
   const [baharCards, setBaharCards] = useState([]);
   const nextIsAndar = useRef(true);
 
-  const [resultData,setResultData] = useState([])
+  const [resultData, setResultData] = useState([]);
 
-  const result = useSelector(state=>state.resultStore)
+  const result = useSelector((state) => state.resultStore);
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -36,111 +36,103 @@ function App() {
 
     //onsole.log(CardImage.length);
 
-    localStorage.setItem("nextAndar",0)
+    localStorage.setItem("nextAndar", 0);
   }, []);
 
-   useEffect(() => {
-      const handleKeyDown = (e) => {
-  
-          
-            if(e.key === "r" || e.key === "R" ){
-                    getRandomCardCode() 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "r" || e.key === "R") {
+        getRandomCardCode();
 
-                  return
-                }
-              }
-  
-      
-      
-  
-      window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
-    }, []);
+        return;
+      }
+    };
 
-  const  getRandomCardCode = () => {
-  const randomIndex = Math.floor(Math.random() * CardImage.length-1);
-  const randomCard = CardImage[randomIndex];
-  console.log(randomCard.cardCode);
-  displayCard(randomCard.cardCode)
-  return randomCard.cardCode;
-}
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const getRandomCardCode = () => {
+    const randomIndex = Math.floor(Math.random() * CardImage.length - 1);
+    const randomCard = CardImage[randomIndex];
+    console.log(randomCard.cardCode);
+    displayCard(randomCard.cardCode);
+    return randomCard.cardCode;
+  };
 
   const displayCard = (data) => {
-   //onsole.log("displayCard from BeeTek:", data);
+    //onsole.log("displayCard from BeeTek:", data);
 
     for (let i in CardImage) {
       if (data == CardImage[i].cardCode) {
         setCard(CardImage[i]);
         setCardCode(CardImage[i].card);
-        console.log(CardImage[i].card)
-       // setCards(CardImage[i].card);
+        console.log(CardImage[i].card);
+        // setCards(CardImage[i].card);
       }
     }
   };
 
   const clearSetCard = () => {
-    setCard(null)
-    setCardCode(null)
-  }
+    setCard(null);
+    setCardCode(null);
+  };
+
+  const setCards = (data) => {
+    console.log("setting setCards");
+
+    if (!jokerRef.current) {
+      console.log("setting joker card", data);
+      setJoker(data);
+      jokerRef.current = data;
+      nextIsAndar.current = true; // reset for new round
+    } else if (localStorage.getItem("nextAndar") == true) {
+      setAndarCards((prev) => {
+        const newArr = [...prev, data];
+        console.log("setting andar cards", data, "-", newArr);
+        return newArr;
+      });
+      localStorage.setItem("nextAndar", false);
+    } else {
+      setBaharCards((prev) => {
+        const newArr = [...prev, data];
+        console.log("setting bahar cards", data, "-", newArr);
+        return newArr;
+      });
+      localStorage.setItem("nextAndar", true);
+    }
+  };
 
 
 
-const setCards = (data) => {
-  console.log("setting setCards");
-
-  if (!jokerRef.current) {
-    console.log("setting joker card", data);
-    setJoker(data);
-    jokerRef.current = data;
-    nextIsAndar.current = true; // reset for new round
-  } else if ( localStorage.getItem("nextAndar") == true) {
-    setAndarCards((prev) => {
-      const newArr = [...prev, data];
-      console.log("setting andar cards", data, "-", newArr);
-      return newArr;
-    });
-     localStorage.setItem("nextAndar",false)
-  } else {
-    setBaharCards((prev) => {
-      const newArr = [...prev, data];
-      console.log("setting bahar cards", data, "-", newArr);
-      return newArr;
-    });
-     localStorage.setItem("nextAndar",true)
-  }
-};
-
-useEffect(() => {
-
-      
-
-       const max = localStorage.getItem("maxLimit");
+  useEffect(() => {
+    const max = localStorage.getItem("maxLimit");
     const min = localStorage.getItem("minLimit");
 
-   
-    console.log("result", result)
-      
-}, []);
-
-
+    console.log("result", result);
+  }, []);
 
   return (
-    <div className={`position-relative text-light`} style={{ }}>
+    <div className={`position-relative text-light`} style={{}}>
       <div className={`position-absolute  vh-100 vw-100 ${s.container}`}> </div>
 
       <div className={`position-absolute w-100`}>
-        <Header max={maxLimit} min={minLimit} />
-        <Result clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
+        <Result
+          clearSetCard={clearSetCard}
+          card={card}
+          joker={joker}
+          baharCards={baharCards}
+          andarCards={andarCards}
+        />
         <Limits />
-{/*
+        {/*
+        <Header max={maxLimit} min={minLimit} />
         <TempForTest clearSetCard={clearSetCard} card={card} joker={joker} baharCards={baharCards} andarCards={andarCards} />
 
 
 */}
-<Analysis winners={resultData} />
-      
-     
-        </div>
+        <Analysis winners={resultData} />
+      </div>
     </div>
   );
 }

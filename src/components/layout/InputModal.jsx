@@ -25,7 +25,7 @@ const InputModal = ({show,message,children}) => {
           background: 'rgba(36, 36, 36, 0.2)',
           border: 'solid rgb(42, 42, 42) 4px',
           borderRadius: 10,
-          boxShadow: '0 0 25px rgba(0, 0, 0, 0.8)',
+          boxShadow: '10px 10px 25px rgba(0, 0, 0, 0.8)',
           position: 'relative',
           overflow: 'visible',
         }}> {children}</Modal.Body>

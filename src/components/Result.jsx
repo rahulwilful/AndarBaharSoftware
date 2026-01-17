@@ -8,6 +8,7 @@ import { TableNoBg } from "./Images";
 import { useDispatch, useSelector } from "react-redux";
 import { addData, setStates } from "../redux/actions/resultAction";
 import SlideDownImage from "./animation/SlideDownImage";
+import { addManualEntry, getAllGameResults, saveGameResult } from "../database/indexedDB";
 
 const Result = ({
   clearSetCard,
@@ -25,7 +26,7 @@ const Result = ({
   const [andarCards, setAndarCards] = useState([]);
   const [baharCards, setBaharCards] = useState([]);
 
-  const isLimitFormOpen = useSelector((state) => state.formStore)
+  const isLimitFormOpen = useSelector((state) => state.formStore);
 
   const tempArray = [];
   let tempAndar = null;
@@ -78,6 +79,7 @@ const Result = ({
       setCleardCards(false);
       setShowModal(true);
       autoHideResult();
+      saveInSQLit(joker.name,joker.value, "B", card.name);
       // toast("Bahar wins",{autoClose: 1000,});
     }
 
@@ -90,8 +92,23 @@ const Result = ({
       setCleardCards(false);
       setShowModal(true);
       autoHideResult();
+      saveInSQLit(joker.name,joker.value, "A", card.name);
     }
   }, [card]);
+
+  const saveInSQLit = async (jokerCard,jokerValue, winner, winingCard) => {
+    
+    await saveGameResult(jokerCard,jokerValue, winner, winingCard);
+
+    setTimeout(() => {
+      getAllData();
+    }, 200);
+  };
+
+  const getAllData = async () => {
+    const data = await getAllGameResults();
+    console.log("IndexedDB 👉", data);
+  };
 
   const autoHideResult = () => {
     setTimeout(() => {
@@ -149,31 +166,32 @@ const Result = ({
   }, []);
 
   useEffect(() => {
-   const handleKeyDown = (e) => {
-     if(isLimitFormOpen == true) return
-     // Avoid repeated firing when key is held down
-     if (e.repeat) return;
+    const handleKeyDown = async(e) => {
+      if (isLimitFormOpen == true) return;
+      // Avoid repeated firing when key is held down
+      if (e.repeat) return;
 
-     // Ensure it's coming from NUMPAD
-     const isNumpad = e.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
+      // Ensure it's coming from NUMPAD
+      const isNumpad = e.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
 
-     if (isNumpad && e.code === "Numpad7" && e.getModifierState("NumLock")) {
-       console.log("A");
-       setMessage("Andar Wins");
-       setShowModal(true);
-       dispatch(addData("A"));
-       autoHideResult();
-     }
+      if (isNumpad && e.code === "Numpad7" && e.getModifierState("NumLock")) {
+        console.log("A");
+        setMessage("Andar Wins");
+        setShowModal(true);
+        dispatch(addData("A"));
+        autoHideResult();
+        await addManualEntry('A')
+      }
 
-     if (isNumpad && e.code === "Numpad9" && e.getModifierState("NumLock")) {
-       console.log("B");
-       setMessage("Bahar Wins");
-       setShowModal(true);
-       dispatch(addData("B"));
-       autoHideResult();
-     }
-   };
-
+      if (isNumpad && e.code === "Numpad9" && e.getModifierState("NumLock")) {
+        console.log("B");
+        setMessage("Bahar Wins");
+        setShowModal(true);
+        dispatch(addData("B"));
+        autoHideResult();
+        await addManualEntry('B')
+      }
+    };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -215,7 +233,7 @@ const Result = ({
                       height={"40%"}
                       position={"static"}
                       alt="Andar Card"
-                      animationOrder={'down'}
+                      animationOrder={"down"}
                     />
                   ) : (
                     <img

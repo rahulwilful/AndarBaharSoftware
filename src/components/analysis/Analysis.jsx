@@ -5,6 +5,7 @@ import Cocroach from "./Cocroach";
 import Container from "../layout/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { addData, deleteAllData, deleteLastData, deleteStates, slice10FromFront } from "../../redux/actions/resultAction";
+import { deleteLastDataFromDB, softDeleteAllData } from "../../database/indexedDB";
 
 
 const Analysis = () => {
@@ -30,6 +31,7 @@ const Analysis = () => {
 
       if(e.key === "l" || e.key === "L" ){
         dispatch(deleteLastData())
+        deleteLastDataFromDB()
         return
       }
 
@@ -41,6 +43,7 @@ const Analysis = () => {
       if(e.key === "d" || e.key === "D" ){
         dispatch(deleteAllData())
         dispatch(deleteStates())
+        //softDeleteAllData()
         return
       }
 

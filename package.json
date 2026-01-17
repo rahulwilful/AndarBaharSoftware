@@ -33,6 +33,7 @@
     "react-toastify": "^11.0.5",
     "redux": "^5.0.1",
     "serialport": "^13.0.0",
+    "sql.js": "^1.13.0",
     "wait-on": "^8.0.3"
   },
   "devDependencies": {
