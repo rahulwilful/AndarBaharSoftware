@@ -9,7 +9,7 @@
   display: block;
   width: 100%;
   padding: 10px;
-  font-size: 16px;
+  font-size: 30px;
   border: none;
   border-bottom: 2px solid #ccc;
   outline: none;
@@ -21,7 +21,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  font-size: 16px;
+  font-size: 20px;
   color: rgba(204, 204, 204, 0);
   pointer-events: none;
   transition: all 0.3s ease;
@@ -41,7 +41,7 @@
 /* Input_field:focus styles */
 .input_field:focus + .input_label {
   top: -20px;
-  font-size: 12px;
+  font-size: 20px;
   color: #007bff;
 }
 

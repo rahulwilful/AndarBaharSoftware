@@ -207,6 +207,7 @@ const Result = ({
 
   return (
     <>
+    
       <ModalMessage show={showModal} message={message} />
       <Container py={0} px={0} h={"31vh"} classes={" capitalize"}>
         <div className="   h-100 w-100  ">
