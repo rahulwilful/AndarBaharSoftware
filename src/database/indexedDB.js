@@ -172,6 +172,31 @@ export const softDeleteAllData = async () => {
   });
 };
 
+export const retrieveSoftDeletedData = async () => {
+   const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+
+    const request = store.getAll();
+
+    request.onsuccess = () => {
+      const data = request.result;
+
+      data.forEach(item => {
+        item.is_deleted = false;
+        store.put(item);
+      });
+
+      resolve(true);
+    };
+
+    request.onerror = () => reject(request.error);
+  });
+};
+
+
 export const hardDeleteAllData = async () => {
   const db = await openDB();
 

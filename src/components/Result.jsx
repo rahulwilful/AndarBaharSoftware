@@ -6,9 +6,9 @@ import { Modal } from "bootstrap";
 import ModalMessage from "./layout/Modal";
 import { TableNoBg } from "./Images";
 import { useDispatch, useSelector } from "react-redux";
-import { addData, setStates } from "../redux/actions/resultAction";
+import { addData, deleteLastData, setData, setStates } from "../redux/actions/resultAction";
 import SlideDownImage from "./animation/SlideDownImage";
-import { addManualEntry, getAllGameResults, saveGameResult } from "../database/indexedDB";
+import { addManualEntry, deleteLastDataFromDB, getAllGameResults, retrieveSoftDeletedData, saveGameResult, softDeleteAllData } from "../database/indexedDB";
 import { setDataFromDatabase } from "../redux/actions/databaseAction";
 
 const Result = ({
@@ -34,13 +34,17 @@ const Result = ({
   let tempAndar = null;
   let tempBahar = null;
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log("andarCards ", andarCards);
   }, [andarCards]);
 
   useEffect(() => {
     console.log("baharCards ", baharCards);
-  }, [baharCards]);
+  }, [baharCards]); */
+
+  useEffect(()=>{
+    getAllData()
+  },[])
 
   useEffect(() => {
    // console.log("cardData: ", card);
@@ -202,11 +206,103 @@ const Result = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+    useEffect(() => {
+    const handleKeyDown = (e) => {
+
+       // console.log("resultLength ",result.length)
+
+      const tag = e.target.tagName;
+
+    // 🚫 Ignore when typing in inputs
+    if (
+      tag === "INPUT" ||
+      tag === "TEXTAREA" ||
+      e.target.isContentEditable
+    ) {
+      return;
+    }
+
+      if(e.key === "l" || e.key === "L" ){
+      deleteLastData()
+       
+        return
+      }
+
+      /*  if(e.key === "f" || e.key === "f" ){
+        dispatch(slice10FromFront())
+        return
+      } */
+
+      if(e.key === "d" || e.key === "D" ){
+       /*  dispatch(deleteAllData())
+        dispatch(deleteStates()) */
+        softDeleteData()
+        return
+      }
+
+       if(e.key === "r" || e.key === "R" ){
+       /*  dispatch(deleteAllData())
+        dispatch(deleteStates()) */
+        retrieveData()
+        return
+      }
+
+      /* 
+      if(  e.code === "Numpad7" || e.code === "Numpad9" ){
+        if(result.length >= 280 ){
+
+          console.log("resultLength ",result.length)
+          dispatch(slice10FromFront())
+        }
+
+        } */
+
+      if (!e.getModifierState("NumLock")) return;
+
+     
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const retrieveData = async() => {
+    console.log("retrieveData called")
+    await  retrieveSoftDeletedData()
+    getAllData()
+
+  }
+
+  
+const softDeleteData = async() => {
+    await  softDeleteAllData()
+    getAllData()
+
+  }
+  const deleteLastData = async() => {
+    await  deleteLastDataFromDB()
+    getAllData()
+
+  }
+
    const getAllData = async () => {
     const data = await getAllGameResults();
     dispatch(setDataFromDatabase(data))
+    setDataForCocroachREsult(data)
     console.log("IndexedDB 👉", data);
   };
+
+  const setDataForCocroachREsult = (data) =>{
+    let temp = []
+
+    for(let i in data){
+      temp.push(data[i].winner)
+    }
+
+    console.log("temp: ",temp)
+    dispatch(setData(temp))
+
+  }
 
   
 
@@ -215,7 +311,9 @@ const Result = ({
   }, [baharCards]);
 
   useEffect(() => {
-    console.log("andarCards", andarCards.length);
+    console.log("andarCards", andarCards.length
+
+    );
   }, [andarCards]);
 
   return (

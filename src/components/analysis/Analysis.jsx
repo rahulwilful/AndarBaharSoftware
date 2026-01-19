@@ -13,58 +13,7 @@ const Analysis = () => {
     const result = useSelector(state => state.resultStore)
     const dispatch = useDispatch()
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
 
-       // console.log("resultLength ",result.length)
-
-      const tag = e.target.tagName;
-
-    // 🚫 Ignore when typing in inputs
-    if (
-      tag === "INPUT" ||
-      tag === "TEXTAREA" ||
-      e.target.isContentEditable
-    ) {
-      return;
-    }
-
-      if(e.key === "l" || e.key === "L" ){
-        dispatch(deleteLastData())
-        deleteLastDataFromDB()
-        return
-      }
-
-       if(e.key === "f" || e.key === "f" ){
-        dispatch(slice10FromFront())
-        return
-      }
-
-      if(e.key === "d" || e.key === "D" ){
-        dispatch(deleteAllData())
-        dispatch(deleteStates())
-        //softDeleteAllData()
-        return
-      }
-
-      /* 
-      if(  e.code === "Numpad7" || e.code === "Numpad9" ){
-        if(result.length >= 280 ){
-
-          console.log("resultLength ",result.length)
-          dispatch(slice10FromFront())
-        }
-
-        } */
-
-      if (!e.getModifierState("NumLock")) return;
-
-     
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
 
 
   return (

@@ -29,9 +29,16 @@
     }, [cardStates])
 
     useEffect(()=>{
-      if(databaseData.length <= 0) return
       console.log("databaseData 👉", databaseData || null);
       let tempState = tempCardState.map(item => ({ ...item }));
+      if(databaseData.length <= 0){
+        for(let i in tempState){
+          tempState[i].andarWins = 0;
+          tempState[i].baharWins = 0
+        }
+        setCardStates(tempState)
+        return
+      } 
 
 
       for(let i in databaseData){

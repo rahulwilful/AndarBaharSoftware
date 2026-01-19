@@ -41,7 +41,7 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "r" || e.key === "R") {
+      if (e.key === "g" || e.key === "G") {
         getRandomCardCode();
 
         return;
