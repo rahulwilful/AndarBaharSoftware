@@ -16,7 +16,7 @@ const Analysis = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
 
-        console.log("resultLength ",result.length)
+       // console.log("resultLength ",result.length)
 
       const tag = e.target.tagName;
 

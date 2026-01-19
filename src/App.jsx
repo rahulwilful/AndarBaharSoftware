@@ -55,7 +55,7 @@ function App() {
   const getRandomCardCode = () => {
     const randomIndex = Math.floor(Math.random() * CardImage.length - 1);
     const randomCard = CardImage[randomIndex];
-    console.log(randomCard.cardCode);
+    //console.log(randomCard.cardCode);
     displayCard(randomCard.cardCode);
     return randomCard.cardCode;
   };
@@ -67,7 +67,7 @@ function App() {
       if (data == CardImage[i].cardCode) {
         setCard(CardImage[i]);
         setCardCode(CardImage[i].card);
-        console.log(CardImage[i].card);
+        //console.log(CardImage[i].card);
         // setCards(CardImage[i].card);
       }
     }
@@ -109,7 +109,7 @@ function App() {
     const max = localStorage.getItem("maxLimit");
     const min = localStorage.getItem("minLimit");
 
-    console.log("result", result);
+    //console.log("result", result);
   }, []);
 
   return (

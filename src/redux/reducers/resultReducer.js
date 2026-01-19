@@ -2,7 +2,8 @@ import {
   ADD_DATA,
   DELETE_LAST_DATA,
   DELETE_ALL_DATA,
-  SLICE_10_FROM_FRONT
+  SLICE_10_FROM_FRONT,
+  SET_DATA
 } from "../constants";
 
 const initialState = [];
@@ -13,7 +14,8 @@ export const resultReducer = (state = initialState, action) => {
 
     case ADD_DATA:
       return [...state, action.data];
-
+     case SET_DATA:
+      return  action.data;
     case DELETE_LAST_DATA:
       return state.slice(0, -1);
 

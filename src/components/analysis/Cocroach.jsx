@@ -5,11 +5,53 @@
   const CardTable = () => {
     const values = Array.from({ length: 11 }, (_, i) => i); // 0 to 10
 
-    const cardStates = useSelector((state) => state.cardStore)
+    const tempCardState = [{ name: "0", value: 0, andarWins: 0, baharWins: 0 },
+    { name: "A", value: 1, andarWins: 0, baharWins: 0 },
+    { name: "2", value: 2, andarWins: 0, baharWins: 0 },
+    { name: "3", value: 3, andarWins: 0, baharWins: 0 },
+    { name: "4", value: 4, andarWins: 0, baharWins: 0 },
+    { name: "5", value: 5, andarWins: 0, baharWins: 0 },
+    { name: "6", value: 6, andarWins: 0, baharWins: 0 },
+    { name: "7", value: 7, andarWins: 0, baharWins: 0 },
+    { name: "8", value: 8, andarWins: 0, baharWins: 0 },
+    { name: "9", value: 9, andarWins: 0, baharWins: 0 },
+    { name: "10", value: 10, andarWins: 0, baharWins: 0 },
+    { name: "J", value: 11, andarWins: 0, baharWins: 0 },
+    { name: "Q", value: 12, andarWins: 0, baharWins: 0 },
+    { name: "K", value: 13, andarWins: 0, baharWins: 0 }]
+
+     const [cardStates,setCardStates] = useState(tempCardState)
+
+    const databaseData = useSelector((state) => state.databaseStore) 
 
     useEffect(() => {
       console.log("cardState: ", cardStates)
     }, [cardStates])
+
+    useEffect(()=>{
+      if(databaseData.length <= 0) return
+      console.log("databaseData 👉", databaseData || null);
+      let tempState = tempCardState.map(item => ({ ...item }));
+
+
+      for(let i in databaseData){
+        if(databaseData[i].jokerCard && databaseData[i].winner == 'A'){
+          tempState[databaseData[i]?.jokerValue].andarWins = tempState[databaseData[i]?.jokerValue].andarWins + 1
+         }
+
+          if(databaseData[i].jokerCard && databaseData[i].winner == 'B'){
+          tempState[databaseData[i]?.jokerValue].baharWins = tempState[databaseData[i]?.jokerValue].baharWins + 1
+         }
+      }
+
+      console.log("tempState: ",tempState)
+
+      setCardStates(tempState)
+
+    },[databaseData])
+
+     
+
 
     return (
       <div className=" h-100 w-100 fs-5">
@@ -148,9 +190,7 @@
           >
             <div className="d-flex text-center   h-100 capitalize">
               <CardTable />
-              {/* <div className="border w-100 h-100">card</div>
-              <div className="border w-100">A</div>
-              <div className="border w-100">B</div> */}
+             
             </div>
           </div>
         </div>

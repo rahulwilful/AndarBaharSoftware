@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addData, setStates } from "../redux/actions/resultAction";
 import SlideDownImage from "./animation/SlideDownImage";
 import { addManualEntry, getAllGameResults, saveGameResult } from "../database/indexedDB";
+import { setDataFromDatabase } from "../redux/actions/databaseAction";
 
 const Result = ({
   clearSetCard,
@@ -16,6 +17,7 @@ const Result = ({
   card /*  joker, andarCards, baharCardss */,
 }) => {
   const cardStates = useSelector((state) => state.cardStore);
+  const databaseData = useSelector((state)=> state.databaseStore)
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
@@ -41,7 +43,7 @@ const Result = ({
   }, [baharCards]);
 
   useEffect(() => {
-    console.log("cardData: ", card);
+   // console.log("cardData: ", card);
     if (showModal == true) return;
     if (cleardCards == false) return;
 
@@ -56,14 +58,14 @@ const Result = ({
       let temp = baharCards;
       temp.push(card);
       setBaharCards(temp);
-      console.log("temp: ", temp);
+      //console.log("temp: ", temp);
       tempBahar = card;
       localStorage.setItem("nextAndar", 1);
     } else {
       let temp = andarCards;
       temp.push(card);
       setAndarCards(temp);
-      console.log("temp: ", temp);
+      //console.log("temp: ", temp);
       //setAndarCards(card);
       tempAndar = card;
 
@@ -71,7 +73,7 @@ const Result = ({
     }
 
     if (joker?.value && nextAndar == "0" && card?.value == joker?.value) {
-      console.log("bahar wins");
+      //console.log("bahar wins");
       setMessage("Bahar Wins");
       setStatsForBahar(joker, card);
       dispatch(addData("B"));
@@ -84,7 +86,7 @@ const Result = ({
     }
 
     if (joker?.value && nextAndar == "1" && card?.value == joker?.value) {
-      console.log("andar wins");
+      //console.log("andar wins");
       //toast("Andar wins",{autoClose: 1000,});
       setMessage("Andar Wins");
       setStatsForAndar(joker, card);
@@ -105,10 +107,11 @@ const Result = ({
     }, 200);
   };
 
-  const getAllData = async () => {
-    const data = await getAllGameResults();
-    console.log("IndexedDB 👉", data);
-  };
+ 
+
+  useEffect(()=>{
+//console.log("databaseData 👉", databaseData || null);
+  },[databaseData])
 
   const autoHideResult = () => {
     setTimeout(() => {
@@ -181,6 +184,7 @@ const Result = ({
         dispatch(addData("A"));
         autoHideResult();
         await addManualEntry('A')
+        getAllData()
       }
 
       if (isNumpad && e.code === "Numpad9" && e.getModifierState("NumLock")) {
@@ -190,12 +194,21 @@ const Result = ({
         dispatch(addData("B"));
         autoHideResult();
         await addManualEntry('B')
+        getAllData()
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+   const getAllData = async () => {
+    const data = await getAllGameResults();
+    dispatch(setDataFromDatabase(data))
+    console.log("IndexedDB 👉", data);
+  };
+
+  
 
   useEffect(() => {
     console.log("baharCards", baharCards.length);
