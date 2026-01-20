@@ -64,18 +64,7 @@ export function slice10FromFront() {
 
 
 
-export function setStates (item){
-  return{
-    type:SET_STATES,
-    data:item
-  }
-}
 
-export function deleteStates () {
-  return {
-    type:DELETE_STATES
-  }
-}
 
 export function toggleLimitForm () {
   return {

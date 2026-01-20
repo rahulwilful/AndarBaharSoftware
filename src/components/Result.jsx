@@ -6,10 +6,11 @@ import { Modal } from "bootstrap";
 import ModalMessage from "./layout/Modal";
 import { TableNoBg } from "./Images";
 import { useDispatch, useSelector } from "react-redux";
-import { addData, deleteLastData, setData, setStates } from "../redux/actions/resultAction";
+import { addData, deleteLastData, setData } from "../redux/actions/resultAction";
 import SlideDownImage from "./animation/SlideDownImage";
 import { addManualEntry, deleteLastDataFromDB, getAllGameResults, retrieveSoftDeletedData, saveGameResult, softDeleteAllData } from "../database/indexedDB";
 import { setDataFromDatabase } from "../redux/actions/databaseAction";
+import { setStates } from "../redux/actions/cardAction";
 
 const Result = ({
   clearSetCard,
@@ -133,6 +134,7 @@ const Result = ({
     };
 
     console.log("tempStates: ", tempStates);
+    
     dispatch(setStates(tempStates));
   };
 

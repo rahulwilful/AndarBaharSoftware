@@ -1,9 +1,12 @@
   import React, { useContext, useEffect, useState } from "react";
   import s from "./Cocroach.module.css";
-  import { useSelector } from "react-redux";
+  import { useDispatch, useSelector } from "react-redux";
+import LiquidGlass from "liquid-glass-react";
+import { deleteStates, setStates } from "../../redux/actions/cardAction";
 
   const CardTable = () => {
     const values = Array.from({ length: 11 }, (_, i) => i); // 0 to 10
+    const dispatch = useDispatch()
 
     const tempCardState = [{ name: "0", value: 0, andarWins: 0, baharWins: 0 },
     { name: "A", value: 1, andarWins: 0, baharWins: 0 },
@@ -37,6 +40,7 @@
           tempState[i].baharWins = 0
         }
         setCardStates(tempState)
+        dispatch(deleteStates())
         return
       } 
 
@@ -54,6 +58,7 @@
       console.log("tempState: ",tempState)
 
       setCardStates(tempState)
+      dispatch(setStates(tempState))
 
     },[databaseData])
 
@@ -163,6 +168,7 @@
 
     return (
       <>
+      
         <div className={`d-flex w-100   ${s.main}`}>
           <div
             className="h-50  border-3 d-flex justify-content-center h-100 "
