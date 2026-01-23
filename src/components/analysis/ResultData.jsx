@@ -21,7 +21,7 @@ const ResultData = ({ results }) => {
   }, [result]);
 
   const manageResult = () => {
-    console.log("result: ",result)
+    //console.log("result: ",result)
     const tempResult = buildGridColumnWise(result, rows, cols);
     setDisplayResult(tempResult);
   };

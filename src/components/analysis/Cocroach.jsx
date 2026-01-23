@@ -28,11 +28,11 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
     const databaseData = useSelector((state) => state.databaseStore) 
 
     useEffect(() => {
-      console.log("cardState: ", cardStates)
+      //console.log("cardState: ", cardStates)
     }, [cardStates])
 
     useEffect(()=>{
-      console.log("databaseData 👉", databaseData || null);
+     // console.log("databaseData 👉", databaseData || null);
       let tempState = tempCardState.map(item => ({ ...item }));
       if(databaseData.length <= 0){
         for(let i in tempState){
@@ -55,7 +55,7 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
          }
       }
 
-      console.log("tempState: ",tempState)
+     // console.log("tempState: ",tempState)
 
       setCardStates(tempState)
       dispatch(setStates(tempState))
@@ -109,11 +109,12 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
     useEffect(() => {
       //console.log("result: ", result);
       buildCocroach(result);
+      
     }, [result]);
 
     const buildCocroach = (results) => {
       const temp = buildGridColumnWise(results, rows, cols);
-      //console.log("temp: ", temp);
+      console.log("temp: ", temp);
 
       setDisplayResult(temp);
     };
@@ -129,13 +130,19 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
         for (let row = 0; row < rows; row++) {
           if (index >= results.length) return grid;
           if (index == 0 || row == 0) {
+            
             grid[row][col] = results[index++];
           } else if (results[index] == results[index - 1]) {
+            if (col == cols - 1 && row == rows-1) {
+              grid = slideBack(grid)
+             // console.log("slideBack grid : ", grid)
+              col = col - 1
+            }
             grid[row][col] = results[index++];
           } else {
             if (col == cols - 1) {
               grid = slideBack(grid)
-              console.log("slideBack grid : ", grid)
+             // console.log("slideBack grid : ", grid)
               col = col - 1
             }
             break;
@@ -143,18 +150,19 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
         }
       }
 
-      console.log("newGrid: ", grid)
+      console.log("final grid: ", grid)
 
       return grid;
     };
 
     const slideBack = (grid) => {
 
-
+      console.log("slideBack grid:",grid)
       // create fresh grid
       const newGrid = Array.from({ length: rows }, () =>
         Array(cols).fill(null)
       );
+      /* let newGrid = grid */
 
       // shift columns left
       for (let row = 0; row < rows; row++) {
@@ -162,6 +170,7 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
           newGrid[row][col - 1] = grid[row][col];
         }
       }
+      console.log("newGrid: ",newGrid)
 
       return newGrid;
     };
@@ -202,7 +211,7 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
             style={{ width: "30vw" }}
           >
             <div className="d-flex text-center   h-100 capitalize">
-              <CardTable />
+              {/* <CardTable /> */}
              
             </div>
           </div>

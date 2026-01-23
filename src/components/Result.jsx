@@ -184,7 +184,7 @@ const Result = ({
       const isNumpad = e.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
 
       if (isNumpad && e.code === "Numpad7" && e.getModifierState("NumLock")) {
-        console.log("A");
+        //console.log("A");
         setMessage("Andar Wins");
         setShowModal(true);
         dispatch(addData("A"));
@@ -194,7 +194,7 @@ const Result = ({
       }
 
       if (isNumpad && e.code === "Numpad9" && e.getModifierState("NumLock")) {
-        console.log("B");
+        //console.log("B");
         setMessage("Bahar Wins");
         setShowModal(true);
         dispatch(addData("B"));
@@ -291,7 +291,7 @@ const softDeleteData = async() => {
     const data = await getAllGameResults();
     dispatch(setDataFromDatabase(data))
     setDataForCocroachREsult(data)
-    console.log("IndexedDB 👉", data);
+    //console.log("IndexedDB 👉", data);
   };
 
   const setDataForCocroachREsult = (data) =>{
@@ -301,7 +301,7 @@ const softDeleteData = async() => {
       temp.push(data[i].winner)
     }
 
-    console.log("temp: ",temp)
+    //console.log("temp: ",temp)
     dispatch(setData(temp))
 
   }
@@ -309,19 +309,19 @@ const softDeleteData = async() => {
   
 
   useEffect(() => {
-    console.log("baharCards", baharCards.length);
+    //console.log("baharCards", baharCards.length);
   }, [baharCards]);
 
   useEffect(() => {
-    console.log("andarCards", andarCards.length
+   // console.log("andarCards", andarCards.length );
 
-    );
+   
   }, [andarCards]);
 
   return (
     <>
     
-      <ModalMessage show={showModal} message={message} />
+      {/* <ModalMessage show={showModal} message={message} /> */}
       <Container py={0} px={0} h={"31vh"} classes={" capitalize"}>
         <div className="   h-100 w-100  ">
           <div
