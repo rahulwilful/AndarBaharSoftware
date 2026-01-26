@@ -178,9 +178,9 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
     return (
       <>
       
-        <div className={`d-flex w-100   ${s.main}`}>
+        <div className={`d-flex w-100 gap-1 `}>
           <div
-            className="h-50  border-3 d-flex justify-content-center h-100 "
+            className={`h-50   d-flex justify-content-center h-100  ${s.main}`}
             style={{ width: "70vw" }}
           >
             <div className="d-flex  flex-column">
@@ -211,7 +211,7 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
             style={{ width: "30vw" }}
           >
             <div className="d-flex text-center   h-100 capitalize">
-              {/* <CardTable /> */}
+              <CardTable />
              
             </div>
           </div>

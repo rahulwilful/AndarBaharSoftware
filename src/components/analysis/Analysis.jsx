@@ -4,6 +4,7 @@ import Result from "../Result";
 import Cocroach from "./Cocroach";
 import Container from "../layout/Container";
 import { useDispatch, useSelector } from "react-redux";
+import FooterData from "./FooterData";
 
 
 
@@ -26,6 +27,8 @@ const Analysis = () => {
            */}
            <ResultData />
           <Cocroach />
+          <FooterData />
+
       </div>
     </Container>
     </>
