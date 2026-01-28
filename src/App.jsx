@@ -116,7 +116,7 @@ function App() {
     <div className={`position-relative text-light`} style={{}}>
       <div className={`position-absolute  vh-100 vw-100 ${s.container}`}> </div>
 
-      <div className={`position-absolute w-100`}>
+      <div className={`position-absolute w-100 `}>
         <Header max={maxLimit} min={minLimit} />
         <Result
           clearSetCard={clearSetCard}
