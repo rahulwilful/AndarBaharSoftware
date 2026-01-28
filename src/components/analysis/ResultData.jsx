@@ -10,10 +10,10 @@ const ResultData = ({ results }) => {
   const rows = 10;
   const cols = 28;
   const [displayedResult, setDisplayResult] = useState(
-    Array.from({ length: rows }, () => Array.from({ length: cols }))
+    Array.from({ length: rows }, () => Array.from({ length: cols })),
   );
   let tempResult = Array.from(
-    Array.from({ length: rows }, () => Array.from({ length: cols }))
+    Array.from({ length: rows }, () => Array.from({ length: cols })),
   );
 
   useEffect(() => {
@@ -26,23 +26,46 @@ const ResultData = ({ results }) => {
     setDisplayResult(tempResult);
   };
 
-  const buildGridColumnWise = (results, rows, cols) => {
-  const grid = Array.from({ length: rows }, () =>
-    Array(cols).fill(null)
-  );
+   const buildGridColumnWise = (results, rows, cols) => {
+    let grid = Array.from({ length: rows }, () => Array(cols).fill(null));
 
-  let index = 0;
+    let index = 0;
 
-  for (let col = 0; col < cols; col++) {
-    for (let row = 0; row < rows; row++) {
-      if (index >= results.length) return grid;
-      grid[row][col] = results[index++];
+    for (let col = 0; col < cols; col++) {
+      for (let row = 0; row < rows; row++) {
+        
+          if (col == cols - 1 && row == rows-1 && index < results.length) {
+              grid = slideBack(grid)
+             // console.log("slideBack grid : ", grid)
+              col = col - 1
+            }
+          
+        if (index >= results.length) return grid;
+        grid[row][col] = results[index++];
+      }
     }
-  }
 
-  return grid;
-};
+    return grid;
+  }; 
 
+  
+
+  const slideBack = (grid) => {
+    console.log("slideBack grid:", grid);
+    // create fresh grid
+    const newGrid = Array.from({ length: rows }, () => Array(cols).fill(null));
+    /* let newGrid = grid */
+
+    // shift columns left
+    for (let row = 0; row < rows; row++) {
+      for (let col = 1; col < cols; col++) {
+        newGrid[row][col - 1] = grid[row][col];
+      }
+    }
+    console.log("newGrid: ", newGrid);
+
+    return newGrid;
+  };
 
   return (
     <div
