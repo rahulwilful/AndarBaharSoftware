@@ -39,7 +39,7 @@ const FooterData = () => {
   
   return (
     <>
-      <div className={`${s.main}`}>
+      <div className={`${s.main} py-4`}>
         <div className="container d-flex flex-column gap-2">
           <div className="section row fs-5">
             {" "}
