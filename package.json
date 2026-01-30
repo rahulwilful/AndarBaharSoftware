@@ -4,6 +4,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "CoreUI Free React Admin Template",
+  "author": "Rahul Patil",
+  "homepage": ".",
   "scripts": {
     "build": "vite build",
     "lint": "eslint",
@@ -13,7 +16,7 @@
     "electron:pack": "electron-builder --dir",
     "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"npm run electron\"",
     "electron:builder": "electron-builder",
-    "build:for:electron": "tsc --noEmit && cross-env ELECTRON=true vite build",
+    "build:for:electron": "cross-env ELECTRON=true vite build",
     "app:build": "npm run build:for:electron && npm run electron:builder"
   },
   "dependencies": {
@@ -24,7 +27,7 @@
     "bootstrap": "^5.3.8",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
-    "electron": "^36.3.2",
+   
     "gsap": "^3.14.2",
     "liquid-glass-react": "^1.1.1",
     "react": "^19.0.0",
@@ -43,11 +46,13 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
+     "electron": "^36.3.2",
     "electron-builder": "^26.4.0",
     "eslint": "^9.22.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "typescript": "^5.9.3",
     "vite": "^6.3.0"
   }
 }
