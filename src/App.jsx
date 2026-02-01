@@ -78,39 +78,11 @@ function App() {
     setCardCode(null);
   };
 
-  const setCards = (data) => {
-    console.log("setting setCards");
-
-    if (!jokerRef.current) {
-      console.log("setting joker card", data);
-      setJoker(data);
-      jokerRef.current = data;
-      nextIsAndar.current = true; // reset for new round
-    } else if (localStorage.getItem("nextAndar") == true) {
-      setAndarCards((prev) => {
-        const newArr = [...prev, data];
-        console.log("setting andar cards", data, "-", newArr);
-        return newArr;
-      });
-      localStorage.setItem("nextAndar", false);
-    } else {
-      setBaharCards((prev) => {
-        const newArr = [...prev, data];
-        console.log("setting bahar cards", data, "-", newArr);
-        return newArr;
-      });
-      localStorage.setItem("nextAndar", true);
-    }
-  };
+  
 
 
 
-  useEffect(() => {
-    const max = localStorage.getItem("maxLimit");
-    const min = localStorage.getItem("minLimit");
-
-    //console.log("result", result);
-  }, []);
+ 
 
   return (
     <div className={`position-relative text-light`} style={{}}>

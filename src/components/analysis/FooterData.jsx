@@ -12,7 +12,7 @@ const FooterData = () => {
   const result = useSelector((state) => state.resultStore);
 
       useEffect(()=>{
-        console.log("result",result)
+      //  console.log("result",result)
 /* 
         if(result.length ==0){
           setTotalGames(0)

@@ -22,11 +22,7 @@ const Analysis = () => {
     <>
       <Container py={0} px={3} h={"57vh"} noContainer={true} classes={" "}>
         <div className={`h-100   w-100 d-flex flex-column gap-2`}>
-          {/* 
-
-              
-
-           */}
+         
           <ResultData />
           <div className={`d-flex   gap-1`}>
             <div className="d-flex flex-column gap-2 ">

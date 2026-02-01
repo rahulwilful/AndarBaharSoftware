@@ -1,14 +1,15 @@
-  import React, { useContext, useEffect, useState } from "react";
-  import s from "./CardTable.module.css";
-  import { useDispatch, useSelector } from "react-redux";
+import React, { useContext, useEffect, useState } from "react";
+import s from "./CardTable.module.css";
+import { useDispatch, useSelector } from "react-redux";
 import LiquidGlass from "liquid-glass-react";
 import { deleteStates, setStates } from "../../redux/actions/cardAction";
 
-  const CardTable = () => {
-    const values = Array.from({ length: 11 }, (_, i) => i); // 0 to 10
-    const dispatch = useDispatch()
+const CardTable = () => {
+  const values = Array.from({ length: 11 }, (_, i) => i); // 0 to 10
+  const dispatch = useDispatch();
 
-    const tempCardState = [{ name: "0", value: 0, andarWins: 0, baharWins: 0 },
+  const tempCardState = [
+    { name: "0", value: 0, andarWins: 0, baharWins: 0 },
     { name: "A", value: 1, andarWins: 0, baharWins: 0 },
     { name: "2", value: 2, andarWins: 0, baharWins: 0 },
     { name: "3", value: 3, andarWins: 0, baharWins: 0 },
@@ -21,79 +22,88 @@ import { deleteStates, setStates } from "../../redux/actions/cardAction";
     { name: "10", value: 10, andarWins: 0, baharWins: 0 },
     { name: "J", value: 11, andarWins: 0, baharWins: 0 },
     { name: "Q", value: 12, andarWins: 0, baharWins: 0 },
-    { name: "K", value: 13, andarWins: 0, baharWins: 0 }]
+    { name: "K", value: 13, andarWins: 0, baharWins: 0 },
+  ];
 
-     const [cardStates,setCardStates] = useState(tempCardState)
+  const [cardStates, setCardStates] = useState(tempCardState);
 
-    const databaseData = useSelector((state) => state.databaseStore) 
+  const databaseData = useSelector((state) => state.databaseStore);
 
-    useEffect(() => {
-      //console.log("cardState: ", cardStates)
-    }, [cardStates])
+  useEffect(() => {
+    //console.log("cardState: ", cardStates)
+  }, [cardStates]);
 
-    useEffect(()=>{
-     // console.log("databaseData 👉", databaseData || null);
-      let tempState = tempCardState.map(item => ({ ...item }));
-      if(databaseData.length <= 0){
-        for(let i in tempState){
-          tempState[i].andarWins = 0;
-          tempState[i].baharWins = 0
-        }
-        setCardStates(tempState)
-        dispatch(deleteStates())
-        return
-      } 
+  useEffect(() => {
+    // console.log("databaseData 👉", databaseData || null);
+    let tempState = tempCardState.map((item) => ({ ...item }));
+    if (databaseData.length <= 0) {
+      for (let i in tempState) {
+        tempState[i].andarWins = 0;
+        tempState[i].baharWins = 0;
+      }
+      setCardStates(tempState);
+      dispatch(deleteStates());
+      return;
+    }
 
-
-      for(let i in databaseData){
-        if(databaseData[i].jokerCard && databaseData[i].winner == 'A'){
-          tempState[databaseData[i]?.jokerValue].andarWins = tempState[databaseData[i]?.jokerValue].andarWins + 1
-         }
-
-          if(databaseData[i].jokerCard && databaseData[i].winner == 'B'){
-          tempState[databaseData[i]?.jokerValue].baharWins = tempState[databaseData[i]?.jokerValue].baharWins + 1
-         }
+    for (let i in databaseData) {
+      if (databaseData[i].jokerCard && databaseData[i].winner == "A") {
+        tempState[databaseData[i]?.jokerValue].andarWins =
+          tempState[databaseData[i]?.jokerValue].andarWins + 1;
       }
 
-     // console.log("tempState: ",tempState)
+      if (databaseData[i].jokerCard && databaseData[i].winner == "B") {
+        tempState[databaseData[i]?.jokerValue].baharWins =
+          tempState[databaseData[i]?.jokerValue].baharWins + 1;
+      }
+    }
 
-      setCardStates(tempState)
-      dispatch(setStates(tempState))
+    // console.log("tempState: ",tempState)
 
-    },[databaseData])
+    setCardStates(tempState);
+    dispatch(setStates(tempState));
+  }, [databaseData]);
 
-     
-
-
-    return (
+  return (
     <div className={`${s.tableWrapper} w-100 fs-5`}>
-  <table className={`w-100 text-center h-100 ${s.main}`}>
+      <table className={`w-100 text-center h-100 ${s.main}`}>
+        <colgroup>
+          <col style={{ width: "40%" }} />
+          <col style={{ width: "30%" }} />
+          <col style={{ width: "30%" }} />
+        </colgroup>
 
-          <colgroup>
-            <col style={{ width: "40%" }} />
-            <col style={{ width: "30%" }} />
-            <col style={{ width: "30%" }} />
-          </colgroup>
-
-          <thead className="">
-            <tr className="capitalize">
-              <th className="border-end border-secondary border-bottom">Card</th>
-              <th className="border-end border-secondary border-bottom">A</th>
-              <th className="border-bottom border-secondary">B</th>
+        <thead className="">
+          <tr className="capitalize">
+            <th className="border-end border-secondary border-bottom">Card</th>
+            <th className="border-end border-secondary border-bottom">A</th>
+            <th className="border-bottom border-secondary">B</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cardStates.map((card, i) => (
+            <tr key={i} className={`${card.name == 0 ? "d-none" : ""}`}>
+              <td
+                className={`border-end ${i < cardStates.length - 1 ? "border-bottom" : null} border-secondary`}
+              >
+                {card.name}
+              </td>
+              <td
+                className={`border-end ${i < cardStates.length - 1 ? "border-bottom" : null} border-secondary`}
+              >
+                {card.andarWins}
+              </td>
+              <td
+                className={`${i < cardStates.length - 1 ? "border-bottom" : null} border-secondary`}
+              >
+                {card.baharWins}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {cardStates.map((card, i) => (
-              <tr key={i} className={`${card.name == 0 ? 'd-none' : ''}`}>
-                <td className={`border-end ${i < cardStates.length-1 ? 'border-bottom' : null} border-secondary`}>{card.name}</td>
-                <td className={`border-end ${i < cardStates.length-1 ? 'border-bottom' : null} border-secondary`}>{card.andarWins}</td>
-                <td className={`${i < cardStates.length-1 ? 'border-bottom' : null} border-secondary`}>{card.baharWins}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
-  export default CardTable
+export default CardTable;

@@ -35,13 +35,17 @@ const Result = ({
   let tempAndar = null;
   let tempBahar = null;
 
-  /* useEffect(() => {
+  
+  
+  useEffect(() => {
     console.log("andarCards ", andarCards);
   }, [andarCards]);
 
   useEffect(() => {
     console.log("baharCards ", baharCards);
-  }, [baharCards]); */
+  }, [baharCards]); 
+  
+ 
 
   useEffect(()=>{
     getAllData()
@@ -60,17 +64,18 @@ const Result = ({
     let nextAndar = localStorage.getItem("nextAndar");
 
     if (nextAndar == 0 || nextAndar == "0") {
-      let temp = baharCards;
+      let temp = [...baharCards];
       temp.push(card);
       setBaharCards(temp);
-      //console.log("temp: ", temp);
+      console.log("temp: ", temp);
       tempBahar = card;
       localStorage.setItem("nextAndar", 1);
+
     } else {
-      let temp = andarCards;
+      let temp = [...andarCards];
       temp.push(card);
       setAndarCards(temp);
-      //console.log("temp: ", temp);
+      console.log("temp: ", temp);
       //setAndarCards(card);
       tempAndar = card;
 
@@ -115,7 +120,7 @@ const Result = ({
  
 
   useEffect(()=>{
-//console.log("databaseData 👉", databaseData || null);
+    //console.log("databaseData 👉", databaseData || null);
   },[databaseData])
 
   const autoHideResult = () => {
@@ -199,7 +204,7 @@ const Result = ({
         setShowModal(true);
         dispatch(addData("B"));
         autoHideResult();
-        await addManualEntry('B')
+        await addManualEntry('B');
         getAllData()
       }
     };
@@ -211,9 +216,9 @@ const Result = ({
     useEffect(() => {
     const handleKeyDown = (e) => {
 
-       // console.log("resultLength ",result.length)
+    // console.log("resultLength ",result.length)
 
-      const tag = e.target.tagName;
+    const tag = e.target.tagName;
 
     // 🚫 Ignore when typing in inputs
     if (
@@ -225,37 +230,39 @@ const Result = ({
     }
 
       if(e.key === "l" || e.key === "L" ){
-      deleteLastData()
-       
+        deleteLastData()
         return
       }
 
-      /*  if(e.key === "f" || e.key === "f" ){
-        dispatch(slice10FromFront())
-        return
-      } */
+     
 
       if(e.key === "d" || e.key === "D" ){
-       /*  dispatch(deleteAllData())
-        dispatch(deleteStates()) */
+       /*  
+
+        dispatch(deleteAllData())
+        dispatch(deleteStates()) 
+
+        */
         softDeleteData()
         return
       }
 
        if(e.key === "r" || e.key === "R" ){
-       /*  dispatch(deleteAllData())
-        dispatch(deleteStates()) */
+       /* 
+        dispatch(deleteAllData())
+        dispatch(deleteStates())
+      */
         retrieveData()
         return
       }
 
       /* 
+
       if(  e.code === "Numpad7" || e.code === "Numpad9" ){
         if(result.length >= 280 ){
-
           console.log("resultLength ",result.length)
           dispatch(slice10FromFront())
-        }
+      }
 
         } */
 
@@ -314,14 +321,12 @@ const softDeleteData = async() => {
 
   useEffect(() => {
    // console.log("andarCards", andarCards.length );
-
-   
   }, [andarCards]);
 
   return (
     <>
     
-      {/* <ModalMessage show={showModal} message={message} /> */}
+      <ModalMessage show={showModal} message={message} />
       <Container py={0} px={0} h={"31vh"} classes={" capitalize"}>
         <div className="   h-100 w-100  ">
           <div

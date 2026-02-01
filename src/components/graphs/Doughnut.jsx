@@ -72,7 +72,7 @@ const Doughnut = () => {
   const result = useSelector((state) => state.resultStore);
 
   useEffect(() => {
-    console.log("result", result);
+    //console.log("result", result);
 
     let tempAndarWins = 0;
     let tempBaharWins = 0;
