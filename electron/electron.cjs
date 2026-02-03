@@ -1,7 +1,13 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
-const { SerialPort } = require('serialport');
-const { ReadlineParser } = require('@serialport/parser-readline');
+const path = require("path");
+const fs = require("fs");
+const https = require("https");
+const { protocol } = require("electron");
+const net = require("net");
+
+
+const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const { SerialPort } = require("serialport");
+const { ReadlineParser } = require("@serialport/parser-readline");
 
 // Global reference to the main window and serial port
 let mainWindow;
@@ -102,11 +108,120 @@ app.on('will-quit', () => {
   }
 });
 
-// Initialize the app
+
+// Function to connect to Safe Shoe device
+function connectToSafeShoe() {
+  const SAFE_SHOE_IP = "192.168.0.7";
+  const SAFE_SHOE_PORT = 80; // Replace with the correct port if different
+
+  const client = new net.Socket();
+  console.log(`🔍 Connecting to Safe Shoe at ${SAFE_SHOE_IP}:${SAFE_SHOE_PORT}...`);
+
+  client.connect(SAFE_SHOE_PORT, SAFE_SHOE_IP, () => {
+    console.log(`✅ Connected to Safe Shoe device!`);
+  });
+
+  client.on("data", (data) => {
+    const receivedData = data.toString().trim();
+    console.log("🃏 Received from Safe Shoe:", receivedData);
+    if (mainWindow) {
+      mainWindow.webContents.send("safe-shoe-data", receivedData);
+    }
+  });
+
+  client.on("error", (err) => {
+    console.error("❌ Safe Shoe Connection Error:", err.message);
+  });
+
+  client.on("close", () => {
+    console.log("⚠️ Safe Shoe connection closed.");
+  });
+}
+
+
+const dgram = require("dgram");
+
+function listenSafeShoeUDP() {
+  console.log("listenSafeShoeUDP called")
+  const server = dgram.createSocket("udp4");
+
+  server.on("listening", () => {
+    const address = server.address();
+    console.log(`📡 Listening UDP on ${address.address}:${address.port}`);
+  });
+
+  server.on("message", (msg, rinfo) => {
+    // only accept packets from Safe Shoe
+    if (rinfo.address === "192.168.0.7") {
+      console.log("🃏 Safe Shoe UDP FROM:", rinfo.address, rinfo.port);
+      console.log("🃏 RAW:", msg);
+      console.log("🃏 HEX:", msg.toString("hex"));
+      console.log("🃏 TEXT:", msg.toString("utf8"));
+
+      if (mainWindow) {
+        mainWindow.webContents.send(
+          "safe-shoe-data",
+          msg.toString("utf8")
+        );
+      }
+    }
+  });
+
+  server.on("error", (err) => {
+    console.error("❌ UDP Error:", err);
+    server.close();
+  });
+
+  // bind to ALL ports
+  server.bind(0);
+}
+
+
+
+
+function connectToSafeShoeHTTP() {
+  const SAFE_SHOE_IP = "192.168.0.7";
+  const SAFE_SHOE_PORT = 80; // or 443 for HTTPS
+
+  const options = {
+    hostname: SAFE_SHOE_IP,
+    port: SAFE_SHOE_PORT,
+    path: "/data", // Replace with the correct endpoint
+    method: "GET",
+  };
+
+  const req = https.request(options, (res) => {
+    res.on("data", (data) => {
+      const receivedData = data.toString().trim();
+      console.log("🃏 Received from Safe Shoe:", receivedData);
+      if (mainWindow) {
+        mainWindow.webContents.send("safe-shoe-data", receivedData);
+      }
+    });
+  });
+
+  req.on("error", (err) => {
+    console.error("❌ Safe Shoe HTTP Error:", err.message);
+  });
+
+  req.end();
+}
+
+
 app.whenReady().then(() => {
   createWindow();
-  connectToBeeTek(); // Attempt to connect to BeeTek device
+  connectToBeeTek(); // try connecting
+  //listenSafeShoeUDP();
+  // connectToSafeShoe();
+  connectToSafeShoeHTTP()
+
 });
+
+// Initialize the app
+/* app.whenReady().then(() => {
+  createWindow();
+  connectToBeeTek(); // Attempt to connect to BeeTek device
+}); */
 
 // Handle all windows being closed
 app.on('window-all-closed', () => {
