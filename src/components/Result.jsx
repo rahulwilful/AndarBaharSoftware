@@ -24,6 +24,7 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
   const [joker, setJoker] = useState(null);
   const [andarCards, setAndarCards] = useState([]);
   const [baharCards, setBaharCards] = useState([]);
+  const [isResultMessageOpen, setIsResultMessageOpen] = useState(false);
 
   const isLimitFormOpen = useSelector(state => state.formStore);
 
@@ -32,15 +33,16 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
   let tempBahar = null;
 
   useEffect(() => {
-    console.log('andarCards ', andarCards);
+    // console.log('andarCards ', andarCards);
   }, [andarCards]);
 
   useEffect(() => {
-    console.log('baharCards ', baharCards);
+    //console.log('baharCards ', baharCards);
   }, [baharCards]);
 
   useEffect(() => {
     getAllData();
+    localStorage.setItem('isResultMessageOpen', 0);
   }, []);
 
   useEffect(() => {
@@ -59,14 +61,14 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
       let temp = [...baharCards];
       temp.push(card);
       setBaharCards(temp);
-      console.log('temp: ', temp);
+      //console.log('temp: ', temp);
       tempBahar = card;
       localStorage.setItem('nextAndar', 1);
     } else {
       let temp = [...andarCards];
       temp.push(card);
       setAndarCards(temp);
-      console.log('temp: ', temp);
+      //console.log('temp: ', temp);
       //setAndarCards(card);
       tempAndar = card;
 
@@ -114,6 +116,7 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
   const autoHideResult = () => {
     setTimeout(() => {
       setShowModal(false);
+      localStorage.setItem('isResultMessageOpen', 0);
     }, 10000);
   };
 
@@ -152,6 +155,7 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
     setShowModal(false);
     clearSetCard(); // call parent to clear card if needed
     setCleardCards(true);
+    localStorage.setItem('isResultMessageOpen', 0);
 
     localStorage.setItem('nextAndar', 0);
   };
@@ -178,21 +182,24 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
 
       // Ensure it's coming from NUMPAD
       const isNumpad = e.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
+      const resultMessageOpen = localStorage.getItem('isResultMessageOpen');
 
-      if (isNumpad && e.code === 'Numpad7' && e.getModifierState('NumLock')) {
-        //console.log("A");
+      if (isNumpad && e.code === 'Numpad7' && e.getModifierState('NumLock') && resultMessageOpen == '0') {
+        console.log('isResultMessageOpen ', isResultMessageOpen);
         setMessage('Andar Wins');
         setShowModal(true);
+        localStorage.setItem('isResultMessageOpen', 1);
         dispatch(addData('A'));
         autoHideResult();
         await addManualEntry('A');
         getAllData();
       }
 
-      if (isNumpad && e.code === 'Numpad9' && e.getModifierState('NumLock')) {
-        //console.log("B");
+      if (isNumpad && e.code === 'Numpad9' && e.getModifierState('NumLock') && resultMessageOpen == '0') {
+        console.log('isResultMessageOpen ', isResultMessageOpen);
         setMessage('Bahar Wins');
         setShowModal(true);
+        localStorage.setItem('isResultMessageOpen', 1);
         dispatch(addData('B'));
         autoHideResult();
         await addManualEntry('B');

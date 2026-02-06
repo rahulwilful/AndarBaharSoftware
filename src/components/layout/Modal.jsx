@@ -3,21 +3,12 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Fireworks } from '@fireworks-js/react';
 
-const ModalMessage = ({ show, message, onHide }) => {
+const ModalMessage = ({ show, message, onHide, winingValue, saveResult }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  
-  
   return (
-    <Modal
-      size="lg"
-      centered
-      show={show}
-      onHide={handleClose}
-      contentClassName="bg-transparent border-0"
-      backdropClassName="custom-backdrop"
-    >
+    <Modal size="lg" centered show={show} onHide={handleClose} contentClassName="bg-transparent border-0" backdropClassName="custom-backdrop">
       <Modal.Body
         className="d-flex justify-content-center align-items-center"
         style={{
@@ -27,9 +18,8 @@ const ModalMessage = ({ show, message, onHide }) => {
           borderRadius: 10,
           boxShadow: '0 0 25px rgba(0, 0, 0, 0.8)',
           position: 'relative',
-          overflow: 'visible',
-        }}
-      >
+          overflow: 'visible'
+        }}>
         <h1 className="fw-bold text-white">{message}</h1>
         <Fireworks
           options={{
@@ -39,23 +29,19 @@ const ModalMessage = ({ show, message, onHide }) => {
             rocketsPoint: { min: 50, max: 50 },
             enabled: true,
             traceLength: 3,
-            decay: { min: 0.015, max: 0.030 },
-            delay: { min: 30.00, max: 60.00 },
+            decay: { min: 0.015, max: 0.03 },
+            delay: { min: 30.0, max: 60.0 },
             explosion: 2,
-            flickering: 50.00,
-            intensity: 30.00,
+            flickering: 50.0,
+            intensity: 30.0,
             friction: 0.97,
-            gravity: 1.50,
+            gravity: 1.5,
             opacity: 0.5,
             particles: 60,
             traceSpeed: 10,
-            lineWidth: { min: 1.00, max: 4.00 },
+            lineWidth: { min: 1.0, max: 4.0 },
             volume: { min: 0, max: 100 },
-              files: [
-        'explosion0.mp3',
-        'explosion1.mp3',
-        'explosion2.mp3'
-      ]
+            files: ['explosion0.mp3', 'explosion1.mp3', 'explosion2.mp3']
           }}
           style={{
             position: 'absolute',
@@ -63,7 +49,7 @@ const ModalMessage = ({ show, message, onHide }) => {
             left: 0,
             width: '100%',
             height: '100%',
-            zIndex: -1,
+            zIndex: -1
           }}
         />
       </Modal.Body>

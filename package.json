@@ -1,5 +1,5 @@
 {
-  "name": "screen-software",
+  "name": "andar-bahar-Software",
   "main": "electron/electron.cjs",
   "private": true,
   "version": "1.0.0",
