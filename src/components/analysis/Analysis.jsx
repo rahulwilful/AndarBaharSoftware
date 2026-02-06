@@ -13,6 +13,7 @@ import PieChartGraph from "../graphs/PieChartGraph";
 import BarGraphComponent from "../graphs/BarGraphComponent";
 
 
+
 const Analysis = () => {
   const [resultData, setResultData] = useState(["A"]);
   const result = useSelector((state) => state.resultStore);
