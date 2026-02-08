@@ -44,30 +44,30 @@ const FooterData = () => {
           <div className="section row fs-5">
             {" "}
           <div className="col-7 ">   Total Games</div>
-            <div className="col-5 "> <button style={{borderRadius:15}} type="button" class="btn w-100  bg-gradient fs-5 shadow-xs btn-primary">{totalGames || '0'}</button></div>
+            <div className="col-5 "> <button style={{borderRadius:15}} type="button" className="btn w-100  bg-gradient fs-5 shadow-xs btn-primary">{totalGames || '0'}</button></div>
           </div>
           <div className="section row fs-5">
            <div className="col-7 "> {" "}
             Andar Wins </div>
-            <div className="col-5 "> <button style={{borderRadius:15}} type="button" class="btn w-100  bg-gradient fs-5 shadow-xs btn-success">{andarWins || '0'}</button></div>
+            <div className="col-5 "> <button style={{borderRadius:15}} type="button" className="btn w-100  bg-gradient fs-5 shadow-xs btn-success">{andarWins || '0'}</button></div>
           </div>
           <div className="section row fs-5">
             <div className="col-7 ">{" "}
             Bahar Wins </div>
-            <div className="col-5 "> <button style={{borderRadius:15}} type="button" class="btn w-100  bg-gradient fs-5 shadow-xs btn-danger">{baharWins || '0'}</button></div>
+            <div className="col-5 "> <button style={{borderRadius:15}} type="button" className="btn w-100  bg-gradient fs-5 shadow-xs btn-danger">{baharWins || '0'}</button></div>
           </div>
          {/*   <div className="section d-flex row fs-5">
             {" "}
           
-            <div className="col-12 d-flex justify-content-center "> <button style={{borderRadius:15}} type="button" class="btn w-75  bg-gradient fs-5 shadow-xs btn-primary"> Total Games {totalGames || '0'}</button></div>
+            <div className="col-12 d-flex justify-content-center "> <button style={{borderRadius:15}} type="button" className="btn w-75  bg-gradient fs-5 shadow-xs btn-primary"> Total Games {totalGames || '0'}</button></div>
           </div>
           <div className="section d-flex row fs-5">
           
-            <div className="col-12 d-flex justify-content-center "> <button style={{borderRadius:15}} type="button" class="btn w-75  bg-gradient fs-5 shadow-xs btn-success"> Andar Wins  {andarWins || '0'}</button></div>
+            <div className="col-12 d-flex justify-content-center "> <button style={{borderRadius:15}} type="button" className="btn w-75  bg-gradient fs-5 shadow-xs btn-success"> Andar Wins  {andarWins || '0'}</button></div>
           </div>
           <div className="section d-flex row fs-5">
            
-            <div className="col-12 d-flex justify-content-center "> <button style={{borderRadius:15}} type="button" class="btn w-75  bg-gradient fs-5 shadow-xs btn-danger"> Bahar Wins  {baharWins || '0'}</button></div>
+            <div className="col-12 d-flex justify-content-center "> <button style={{borderRadius:15}} type="button" className="btn w-75  bg-gradient fs-5 shadow-xs btn-danger"> Bahar Wins  {baharWins || '0'}</button></div>
           </div> */}
         </div>
       </div>

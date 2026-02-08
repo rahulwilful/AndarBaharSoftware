@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Fireworks } from '@fireworks-js/react';
+import TextInput from '../formsAndInputs/TextInput';
+import SmallTextInput from '../formsAndInputs/SmallTextInput';
 
-const ModalMessage = ({ show, message, onHide, winingValue, saveResult }) => {
+const ModalMessage = ({ show, message, onHide, winingValue, saveResult,jokerValue,setManualJokerValue,helperAddManualEntry }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const jokerValueRef = useRef(null)
+
+  useEffect(()=>{
+    if(show){
+      setTimeout(()=>{
+        jokerValueRef.current?.focus();
+      },0)
+    }
+  },[show])
 
   return (
     <Modal size="lg" centered show={show} onHide={handleClose} contentClassName="bg-transparent border-0" backdropClassName="custom-backdrop">
       <Modal.Body
-        className="d-flex justify-content-center align-items-center"
+        className="d-flex flex-column justify-content-between align-items-center"
         style={{
           height: '50vh',
           background: 'rgba(0,0,0,0.2)',
@@ -20,7 +31,14 @@ const ModalMessage = ({ show, message, onHide, winingValue, saveResult }) => {
           position: 'relative',
           overflow: 'visible'
         }}>
+          <div className='h-100  d-flex justify-content-center align-items-center'>
+
         <h1 className="fw-bold text-white">{message}</h1>
+          </div>
+          <form action="">
+
+        <SmallTextInput value={jokerValue} setValue={setManualJokerValue} ref={jokerValueRef} />
+          </form>
         <Fireworks
           options={{
             autoresize: true,

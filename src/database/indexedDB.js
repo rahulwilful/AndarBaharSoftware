@@ -52,7 +52,7 @@ export const saveGameResult = async (
 
 export const addManualEntry = async (
   
-  winner
+  winner,jokerValue
  
 ) => {
   const db = await openDB();
@@ -63,7 +63,7 @@ export const addManualEntry = async (
 
     store.add({
       jokerCard:null,
-      jokerValue:null,
+      jokerValue,
       winner,
       winningCard:null,
       is_deleted:false,

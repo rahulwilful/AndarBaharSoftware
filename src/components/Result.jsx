@@ -22,6 +22,7 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
   const [message, setMessage] = useState('');
 
   const [joker, setJoker] = useState(null);
+  const [jokerValue,setJokerValue] = useState(null)
   const [andarCards, setAndarCards] = useState([]);
   const [baharCards, setBaharCards] = useState([]);
   const [isResultMessageOpen, setIsResultMessageOpen] = useState(false);
@@ -52,6 +53,7 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
 
     if (!joker) {
       setJoker(card);
+      setJokerValue(card?.value)
       return;
     }
 
@@ -183,6 +185,7 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
       // Ensure it's coming from NUMPAD
       const isNumpad = e.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
       const resultMessageOpen = localStorage.getItem('isResultMessageOpen');
+      if(resultMessageOpen == 1) return
 
       if (isNumpad && e.code === 'Numpad7' && e.getModifierState('NumLock') && resultMessageOpen == '0') {
         console.log('isResultMessageOpen ', isResultMessageOpen);
@@ -190,9 +193,9 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
         setShowModal(true);
         localStorage.setItem('isResultMessageOpen', 1);
         dispatch(addData('A'));
-        autoHideResult();
-        await addManualEntry('A');
-        getAllData();
+        //autoHideResult();
+       /*  await addManualEntry('A');
+        getAllData(); */
       }
 
       if (isNumpad && e.code === 'Numpad9' && e.getModifierState('NumLock') && resultMessageOpen == '0') {
@@ -201,15 +204,21 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
         setShowModal(true);
         localStorage.setItem('isResultMessageOpen', 1);
         dispatch(addData('B'));
-        autoHideResult();
-        await addManualEntry('B');
-        getAllData();
+        //autoHideResult();
+      
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  const helperAddManualEntry = async(winner,jokerValue)=>{
+  await addManualEntry(winner,jokerValue);
+  autoHideResult();
+        getAllData();
+        localStorage.setItem('isResultMessageOpen',0);
+  }
 
   useEffect(() => {
     const handleKeyDown = e => {
@@ -300,9 +309,13 @@ const Result = ({ clearSetCard, children, card /*  joker, andarCards, baharCards
     // console.log("andarCards", andarCards.length );
   }, [andarCards]);
 
+  useEffect(() => {
+     console.log("jokerValue", jokerValue );
+  }, [jokerValue]);
+
   return (
     <>
-      <ModalMessage show={showModal} message={message} />
+      <ModalMessage show={showModal} message={message} jokerValue={jokerValue} setManualJokerValue={(value)=>{setJokerValue(value)}}/>
       <Container py={0} px={0} h={'31vh'} classes={' capitalize'}>
         <div className="   h-100 w-100  ">
           <div
