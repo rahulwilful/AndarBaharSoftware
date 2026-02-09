@@ -28,11 +28,11 @@ const ModalMessage = ({
   }, [show]);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
- if (!jokerValue) return;
+    e.preventDefault();
+    if (!jokerValue) return;
 
-            addManualEntry(message === "Andar Wins" ? "A" : "B", jokerValue);
-  }
+    addManualEntry(message === "Andar Wins" ? "A" : "B", jokerValue);
+  };
 
   return (
     <Modal
@@ -58,9 +58,7 @@ const ModalMessage = ({
         <div className="h-100  d-flex justify-content-center align-items-center">
           <h1 className="fw-bold text-white">{message}</h1>
         </div>
-        <form
-          onSubmit={handleSubmit}
-        >
+        <form onSubmit={handleSubmit}>
           <SmallTextInput
             value={jokerValue}
             setValue={setManualJokerValue}
