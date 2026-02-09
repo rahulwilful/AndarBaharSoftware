@@ -8,16 +8,14 @@ const SmallTextInput = forwardRef(({ value, setValue, placeHolder }, ref) => {
         ref={ref}
         type="number"
         value={value ?? ""}
-         onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
         //placeholder={placeHolder || "Enter"}
         className={`${s.input_field}   text-center`}
       />
-
-      
 
       <span className={s.input_highlight}></span>
     </div>
   );
 });
 
-export default SmallTextInput
+export default SmallTextInput;

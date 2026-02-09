@@ -6,14 +6,14 @@ export const initDB = async () => {
   if (db) return db;
 
   const SQL = await initSqlJs({
-    locateFile: file => `/sql-wasm.wasm`
+    locateFile: (file) => `/sql-wasm.wasm`,
   });
 
   // Load saved DB
   const saved = localStorage.getItem("game_sqlite");
 
   if (saved) {
-    const bytes = Uint8Array.from(atob(saved), c => c.charCodeAt(0));
+    const bytes = Uint8Array.from(atob(saved), (c) => c.charCodeAt(0));
     db = new SQL.Database(bytes);
   } else {
     db = new SQL.Database();

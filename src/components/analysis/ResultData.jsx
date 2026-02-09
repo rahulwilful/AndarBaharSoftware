@@ -26,29 +26,26 @@ const ResultData = ({ results }) => {
     setDisplayResult(tempResult);
   };
 
-   const buildGridColumnWise = (results, rows, cols) => {
+  const buildGridColumnWise = (results, rows, cols) => {
     let grid = Array.from({ length: rows }, () => Array(cols).fill(null));
 
     let index = 0;
 
     for (let col = 0; col < cols; col++) {
       for (let row = 0; row < rows; row++) {
-        
-          if (col == cols - 1 && row == rows-1 && index < results.length) {
-              grid = slideBack(grid)
-             // console.log("slideBack grid : ", grid)
-              col = col - 1
-            }
-          
+        if (col == cols - 1 && row == rows - 1 && index < results.length) {
+          grid = slideBack(grid);
+          // console.log("slideBack grid : ", grid)
+          col = col - 1;
+        }
+
         if (index >= results.length) return grid;
         grid[row][col] = results[index++];
       }
     }
 
     return grid;
-  }; 
-
-  
+  };
 
   const slideBack = (grid) => {
     console.log("slideBack grid:", grid);

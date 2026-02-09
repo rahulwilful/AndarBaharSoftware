@@ -25,7 +25,7 @@ const COLORS = [
   "#28a745", // Lighter Green
   "#c92a2a", // Dark Red
   "#ffc107", // Amber
-  "#495057"  // Dark Gray
+  "#495057", // Dark Gray
 ];
 
 const BarGraphComponent = () => {
@@ -74,19 +74,15 @@ const BarGraphComponent = () => {
     <div className={`${s.main}`} style={{ width: "100%", height: 300 }}>
       <ResponsiveContainer>
         <BarChart data={data}>
-          <XAxis
-          tick={{ fontSize: 17, fill: "white" }}
-          dataKey="name" />
-          <YAxis
-          tick={{ fontSize: 17, fill: "white" }}
-          />
+          <XAxis tick={{ fontSize: 17, fill: "white" }} dataKey="name" />
+          <YAxis tick={{ fontSize: 17, fill: "white" }} />
           <Tooltip />
-          <Bar
-           radius={[7, 7, 7, 7]}
-          barSize={12}
-          dataKey="totalWin" name="">
+          <Bar radius={[7, 7, 7, 7]} barSize={12} dataKey="totalWin" name="">
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
             ))}
           </Bar>
         </BarChart>

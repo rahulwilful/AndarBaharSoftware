@@ -4,7 +4,10 @@ import InputModal from "./InputModal";
 import LOGO from "../../assets/LOGO.avif";
 import TextInput from "../formsAndInputs/TextInput";
 import { useDispatch, useSelector } from "react-redux";
-import { setLimitFormFalse, toggleLimitForm } from "../../redux/actions/resultAction";
+import {
+  setLimitFormFalse,
+  toggleLimitForm,
+} from "../../redux/actions/resultAction";
 
 const Limits = ({}) => {
   const minRef = useRef(null);
@@ -98,7 +101,7 @@ const Limits = ({}) => {
   };
 
   const handleSubmit = () => {
-   // console.log("handleSubmit called");
+    // console.log("handleSubmit called");
     localStorage.setItem("maxLimit", maxLimit);
     localStorage.setItem("minLimit", minLimit);
   };

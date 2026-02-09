@@ -12,10 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import LiquidGlass from "liquid-glass-react";
 import { deleteStates, setStates } from "../../redux/actions/cardAction";
 
-
 const COLORS = ["#198754", "#dc3545", "#FFBB28"];
 
-const RADIAN = Math.PI / 180
+const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -26,11 +25,11 @@ const renderCustomizedLabel = ({
   index,
   value,
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.2
-  const x = cx + radius * Math.cos(-midAngle * RADIAN)
-  const y = cy + radius * Math.sin(-midAngle * RADIAN)
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.2;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
   if (value === 0 || percent === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -38,14 +37,14 @@ const renderCustomizedLabel = ({
       x={x}
       y={y}
       fill="white"
-      textAnchor={x > cx ? 'start' : 'end'}
+      textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
       fontSize="12px"
     >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
-  )
-}
+  );
+};
 
 const Graphs = () => {
   const [data, setData] = useState([
@@ -89,10 +88,9 @@ const Graphs = () => {
             cx="50%"
             cy="50%"
             fill="#8884d8"
-            
             labelLine={false}
-              label={renderCustomizedLabel}
-              stroke={false}
+            label={renderCustomizedLabel}
+            stroke={false}
           >
             {data.map((entry, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />

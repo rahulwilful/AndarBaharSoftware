@@ -153,27 +153,33 @@ const TempForTest = ({
                 className="d-flex  h-100 flex-column  justify-content-center w-100"
                 style={{ paddingTop: "1.3rem", paddingBottom: "1.3rem" }}
               >
-                <div style={{position:'relative'}} className=" px-2  h-100 w-100 ">
+                <div
+                  style={{ position: "relative" }}
+                  className=" px-2  h-100 w-100 "
+                >
                   <div className=" border-bottom fs-3  text-center mb-1 fw-bold">
                     andar
                   </div>
                   {andarCard.length > 0 ? (
-                    andarCard.map((card,i) => (
-
-                        <img
+                    andarCard.map((card, i) => (
+                      <img
                         className=""
-                        style={{ height: "80%",position:"absolute" , left:`${i+3}rem` }}
+                        style={{
+                          height: "80%",
+                          position: "absolute",
+                          left: `${i + 3}rem`,
+                        }}
                         src={card?.card}
                         alt="Andar Card"
-                        />
+                      />
                     ))
-                  ):(<img
-                    className={``}
-                    style={{ height: "80%" }}
-                    src={BackgroundCard}
-                  />)}
-
-                  
+                  ) : (
+                    <img
+                      className={``}
+                      style={{ height: "80%" }}
+                      src={BackgroundCard}
+                    />
+                  )}
                 </div>
 
                 <div className=" h-100    px-2 w-100 ">
@@ -181,23 +187,24 @@ const TempForTest = ({
                     bahar
                   </div>
                   {baharCard.length > 0 ? (
-                    baharCard.map((card,i)=>(
-
-                        <img
+                    baharCard.map((card, i) => (
+                      <img
                         className={``}
-                        style={{ height: "80%",position:"absolute" , left:`${i+3}rem` }}
+                        style={{
+                          height: "80%",
+                          position: "absolute",
+                          left: `${i + 3}rem`,
+                        }}
                         src={card?.card}
-                        />
+                      />
                     ))
-                ):(
+                  ) : (
                     <img
-                    className={``}
-                    style={{ height: "80%" }}
-                    src={BackgroundCard}
-                  />
-                )}
-                    
-                  
+                      className={``}
+                      style={{ height: "80%" }}
+                      src={BackgroundCard}
+                    />
+                  )}
                 </div>
               </div>
             </div>

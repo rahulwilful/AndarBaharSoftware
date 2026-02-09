@@ -6,8 +6,8 @@ import { formReducer } from "./reducers/FormReducer";
 import { databaseReducer } from "./reducers/databaseReducer";
 
 export default combineReducers({
-    resultStore:resultReducer,
-    cardStore:cardReducer,
-    formStore:formReducer,
-    databaseStore:databaseReducer
-})
+  resultStore: resultReducer,
+  cardStore: cardReducer,
+  formStore: formReducer,
+  databaseStore: databaseReducer,
+});

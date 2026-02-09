@@ -13,7 +13,7 @@ const TextInput = forwardRef(({ value, setValue, placeHolder }, ref) => {
         className={`${s.input_field} text-light`}
       />
 
-      <label htmlFor="input_field" className={s.input_label} >
+      <label htmlFor="input_field" className={s.input_label}>
         {placeHolder || "Place Holder"}
       </label>
 

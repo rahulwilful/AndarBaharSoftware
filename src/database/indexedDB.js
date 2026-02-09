@@ -13,7 +13,7 @@ export const openDB = () => {
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         db.createObjectStore(STORE_NAME, {
           keyPath: "id",
-          autoIncrement: true
+          autoIncrement: true,
         });
       }
     };
@@ -27,7 +27,7 @@ export const saveGameResult = async (
   jokerCard,
   jokerValue,
   winner,
-  winningCard
+  winningCard,
 ) => {
   const db = await openDB();
 
@@ -40,9 +40,9 @@ export const saveGameResult = async (
       jokerValue,
       winner,
       winningCard,
-      is_deleted:false,
-      manual_entry:false,
-      time: Date.now()
+      is_deleted: false,
+      manual_entry: false,
+      time: Date.now(),
     });
 
     tx.oncomplete = () => resolve(true);
@@ -50,11 +50,7 @@ export const saveGameResult = async (
   });
 };
 
-export const addManualEntry = async (
-  
-  winner,jokerValue
- 
-) => {
+export const addManualEntry = async (winner, jokerValue) => {
   const db = await openDB();
 
   return new Promise((resolve, reject) => {
@@ -62,13 +58,13 @@ export const addManualEntry = async (
     const store = tx.objectStore("game_result");
 
     store.add({
-      jokerCard:null,
+      jokerCard: null,
       jokerValue,
       winner,
-      winningCard:null,
-      is_deleted:false,
-      manual_entry:true,
-      time: Date.now()
+      winningCard: null,
+      is_deleted: false,
+      manual_entry: true,
+      time: Date.now(),
     });
 
     tx.oncomplete = () => resolve(true);
@@ -87,7 +83,7 @@ export const getAllGameResults = async () => {
 
     request.onsuccess = () => {
       const filtered = request.result.filter(
-        item => item.is_deleted === false
+        (item) => item.is_deleted === false,
       );
       resolve(filtered);
     };
@@ -95,7 +91,6 @@ export const getAllGameResults = async () => {
     request.onerror = () => reject(request.error);
   });
 };
-
 
 export const getAllTrueGameResults = async () => {
   const db = await openDB();
@@ -113,8 +108,6 @@ export const getAllTrueGameResults = async () => {
     request.onerror = () => reject(request.error);
   });
 };
-
-
 
 export const deleteLastDataFromDB = async () => {
   const db = await openDB();
@@ -147,7 +140,6 @@ export const deleteLastDataFromDB = async () => {
   });
 };
 
-
 export const softDeleteAllData = async () => {
   const db = await openDB();
 
@@ -160,7 +152,7 @@ export const softDeleteAllData = async () => {
     request.onsuccess = () => {
       const data = request.result;
 
-      data.forEach(item => {
+      data.forEach((item) => {
         item.is_deleted = true;
         store.put(item);
       });
@@ -173,7 +165,7 @@ export const softDeleteAllData = async () => {
 };
 
 export const retrieveSoftDeletedData = async () => {
-   const db = await openDB();
+  const db = await openDB();
 
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
@@ -184,7 +176,7 @@ export const retrieveSoftDeletedData = async () => {
     request.onsuccess = () => {
       const data = request.result;
 
-      data.forEach(item => {
+      data.forEach((item) => {
         item.is_deleted = false;
         store.put(item);
       });
@@ -195,7 +187,6 @@ export const retrieveSoftDeletedData = async () => {
     request.onerror = () => reject(request.error);
   });
 };
-
 
 export const hardDeleteAllData = async () => {
   const db = await openDB();
@@ -210,4 +201,3 @@ export const hardDeleteAllData = async () => {
     request.onerror = () => reject(request.error);
   });
 };
-

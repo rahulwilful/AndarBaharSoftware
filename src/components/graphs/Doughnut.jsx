@@ -11,8 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import LiquidGlass from "liquid-glass-react";
 import { deleteStates, setStates } from "../../redux/actions/cardAction";
-import s from "./Doughnut.module.css"
-
+import s from "./Doughnut.module.css";
 
 const COLORS = [
   "#198754", // Green
@@ -28,10 +27,10 @@ const COLORS = [
   "#28a745", // Lighter Green
   "#c92a2a", // Dark Red
   "#ffc107", // Amber
-  "#495057"  // Dark Gray
+  "#495057", // Dark Gray
 ];
 
-const RADIAN = Math.PI / 180
+const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -42,11 +41,11 @@ const renderCustomizedLabel = ({
   index,
   value,
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.2
-  const x = cx + radius * Math.cos(-midAngle * RADIAN)
-  const y = cy + radius * Math.sin(-midAngle * RADIAN)
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.2;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
   if (value === 0 || percent === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -54,14 +53,14 @@ const renderCustomizedLabel = ({
       x={x}
       y={y}
       fill="white"
-      textAnchor={x > cx ? 'start' : 'end'}
+      textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
       fontSize="12px"
     >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
-  )
-}
+  );
+};
 
 const Doughnut = () => {
   const [data, setData] = useState([
@@ -92,37 +91,35 @@ const Doughnut = () => {
     setData(tempData);
   }, [result]);
 
-
   return (
-   <div className={`${s.main}`} style={{ width: "100%", height: 300 }}>
-         <ResponsiveContainer>
-           <PieChart>
-             <Pie
-               data={data}
-               dataKey="value"
-               nameKey="name"
-                 paddingAngle={5}
-                  cornerRadius="49%"
-               innerRadius={75}
-               outerRadius={110}
-               cx="50%"
-               cy="50%"
-               fill="#8884d8"
-               
-               stroke={false}
-               labelLine={false}
-                 label={renderCustomizedLabel}
-             >
-               {data.map((entry, index) => (
-                 <Cell key={index} fill={COLORS[index % COLORS.length]} />
-               ))}
-             </Pie>
-   
-             <Tooltip />
-             <Legend />
-           </PieChart>
-         </ResponsiveContainer>
-       </div>
+    <div className={`${s.main}`} style={{ width: "100%", height: 300 }}>
+      <ResponsiveContainer>
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            paddingAngle={5}
+            cornerRadius="49%"
+            innerRadius={75}
+            outerRadius={110}
+            cx="50%"
+            cy="50%"
+            fill="#8884d8"
+            stroke={false}
+            labelLine={false}
+            label={renderCustomizedLabel}
+          >
+            {data.map((entry, index) => (
+              <Cell key={index} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

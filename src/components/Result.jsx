@@ -134,8 +134,8 @@ const Result = ({
     setTimeout(() => {
       setShowModal(false);
       localStorage.setItem("isResultMessageOpen", 0);
-       setMessage(null)
-      setJokerValue(null)
+      setMessage(null);
+      setJokerValue(null);
     }, time || 10000);
   };
 
@@ -239,7 +239,6 @@ const Result = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-
   useEffect(() => {
     const handleKeyDown = async (e) => {
       // console.log("resultLength ",result.length)
@@ -252,8 +251,8 @@ const Result = ({
       }
 
       if (e.key === "l" || e.key === "L") {
-       await deleteLastData();
-       getAllData()
+        await deleteLastData();
+        getAllData();
 
         return;
       }
@@ -334,21 +333,15 @@ const Result = ({
     console.log("jokerValue", jokerValue);
   }, [jokerValue]);
 
-  
   const helperAddManualEntry = async (winner, jokerValue) => {
-    if(!winner || !jokerValue) return
-    console.log("helperAddManualEntry",winner,jokerValue)
-    
+    if (!winner || !jokerValue) return;
+    console.log("helperAddManualEntry", winner, jokerValue);
 
     await addManualEntry(winner, jokerValue);
     dispatch(addData(winner));
     localStorage.setItem("isResultMessageOpen", 0);
     autoHideResult(1000);
     getAllData();
-   
-    
-    
-   
   };
 
   return (

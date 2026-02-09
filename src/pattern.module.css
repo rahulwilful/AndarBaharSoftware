@@ -1,4 +1,4 @@
-/* From Uiverse.io by SelfMadeSystem */ 
+/* From Uiverse.io by SelfMadeSystem */
 /*
 More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
  */
@@ -7,7 +7,7 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
   content: "";
   position: absolute;
   inset: 0;
-  
+
   background-image: radial-gradient(
     circle at 50% 50%,
     #0000 0,
@@ -34,7 +34,8 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
   height: 100%;
   --c: #09f;
   background-color: #000;
-  background-image: radial-gradient(4px 100px at 0px 235px, var(--c), #0000),
+  background-image:
+    radial-gradient(4px 100px at 0px 235px, var(--c), #0000),
     radial-gradient(4px 100px at 300px 235px, var(--c), #0000),
     radial-gradient(1.5px 1.5px at 150px 117.5px, var(--c) 100%, #0000 150%),
     radial-gradient(4px 100px at 0px 252px, var(--c), #0000),
