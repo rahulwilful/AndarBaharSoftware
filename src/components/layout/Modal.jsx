@@ -27,6 +27,13 @@ const ModalMessage = ({
     }
   }, [show]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+ if (!jokerValue) return;
+
+            addManualEntry(message === "Andar Wins" ? "A" : "B", jokerValue);
+  }
+
   return (
     <Modal
       size="lg"
@@ -52,13 +59,7 @@ const ModalMessage = ({
           <h1 className="fw-bold text-white">{message}</h1>
         </div>
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-
-            if (!jokerValue) return;
-
-            addManualEntry(message === "Andar Wins" ? "A" : "B", jokerValue);
-          }}
+          onSubmit={handleSubmit}
         >
           <SmallTextInput
             value={jokerValue}

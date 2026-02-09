@@ -130,11 +130,13 @@ const Result = ({
     //console.log("databaseData 👉", databaseData || null);
   }, [databaseData]);
 
-  const autoHideResult = () => {
+  const autoHideResult = (time) => {
     setTimeout(() => {
       setShowModal(false);
       localStorage.setItem("isResultMessageOpen", 0);
-    }, 10000);
+       setMessage(null)
+      setJokerValue(null)
+    }, time || 10000);
   };
 
   const setStatsForAndar = (joker, card) => {
@@ -239,7 +241,7 @@ const Result = ({
 
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = async (e) => {
       // console.log("resultLength ",result.length)
 
       const tag = e.target.tagName;
@@ -250,7 +252,8 @@ const Result = ({
       }
 
       if (e.key === "l" || e.key === "L") {
-        deleteLastData();
+       await deleteLastData();
+       getAllData()
 
         return;
       }
@@ -338,12 +341,11 @@ const Result = ({
     
 
     await addManualEntry(winner, jokerValue);
-    autoHideResult();
-    getAllData();
     dispatch(addData(winner));
     localStorage.setItem("isResultMessageOpen", 0);
-    setMessage(null)
-    setJokerValue(NULL)
+    autoHideResult(1000);
+    getAllData();
+   
     
     
    

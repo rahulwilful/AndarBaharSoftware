@@ -47,12 +47,12 @@ const CardTable = () => {
     }
 
     for (let i in databaseData) {
-      if (databaseData[i].jokerCard && databaseData[i].winner == "A") {
+      if (databaseData[i].jokerValue && databaseData[i].winner == "A") {
         tempState[databaseData[i]?.jokerValue].andarWins =
           tempState[databaseData[i]?.jokerValue].andarWins + 1;
       }
 
-      if (databaseData[i].jokerCard && databaseData[i].winner == "B") {
+      if (databaseData[i].jokerValue && databaseData[i].winner == "B") {
         tempState[databaseData[i]?.jokerValue].baharWins =
           tempState[databaseData[i]?.jokerValue].baharWins + 1;
       }

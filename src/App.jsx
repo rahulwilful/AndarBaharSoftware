@@ -9,6 +9,7 @@ import Analysis from "./components/analysis/Analysis";
 import Limits from "./components/layout/Limits";
 import { useSelector } from "react-redux";
 import TempForTest from "./TempForTest";
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
   const [maxLimit, setMaxLimit] = useState(null);
@@ -67,6 +68,7 @@ function App() {
       if (data == CardImage[i].cardCode) {
         setCard(CardImage[i]);
         setCardCode(CardImage[i].card);
+       
         //console.log(CardImage[i].card);
         // setCards(CardImage[i].card);
       }
@@ -105,6 +107,17 @@ function App() {
 */}
         <Analysis winners={resultData} />
       </div>
+        <ToastContainer
+  position="top-right"
+  autoClose={2000}        // 👈 force auto close (2s)
+  hideProgressBar={false}
+  newestOnTop={false}
+  closeOnClick
+  rtl={false}
+  pauseOnFocusLoss={false}
+  draggable
+  pauseOnHover={false}
+/>
     </div>
   );
 }
