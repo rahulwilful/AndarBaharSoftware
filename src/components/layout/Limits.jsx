@@ -98,7 +98,7 @@ const Limits = ({}) => {
   };
 
   const handleSubmit = () => {
-    console.log("handleSubmit called");
+   // console.log("handleSubmit called");
     localStorage.setItem("maxLimit", maxLimit);
     localStorage.setItem("minLimit", minLimit);
   };

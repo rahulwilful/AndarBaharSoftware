@@ -1,44 +1,72 @@
-import React, { useEffect, useRef } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { Fireworks } from '@fireworks-js/react';
-import TextInput from '../formsAndInputs/TextInput';
-import SmallTextInput from '../formsAndInputs/SmallTextInput';
+import React, { useEffect, useRef } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { Fireworks } from "@fireworks-js/react";
+import TextInput from "../formsAndInputs/TextInput";
+import SmallTextInput from "../formsAndInputs/SmallTextInput";
 
-const ModalMessage = ({ show, message, onHide, winingValue, saveResult,jokerValue,setManualJokerValue,helperAddManualEntry }) => {
+const ModalMessage = ({
+  show,
+  message,
+  onHide,
+  winingValue,
+  saveResult,
+  jokerValue,
+  setManualJokerValue,
+  addManualEntry,
+}) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const jokerValueRef = useRef(null)
+  const jokerValueRef = useRef(null);
 
-  useEffect(()=>{
-    if(show){
-      setTimeout(()=>{
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
         jokerValueRef.current?.focus();
-      },0)
+      }, 0);
     }
-  },[show])
+  }, [show]);
 
   return (
-    <Modal size="lg" centered show={show} onHide={handleClose} contentClassName="bg-transparent border-0" backdropClassName="custom-backdrop">
+    <Modal
+      size="lg"
+      centered
+      show={show}
+      onHide={handleClose}
+      contentClassName="bg-transparent border-0"
+      backdropClassName="custom-backdrop"
+    >
       <Modal.Body
         className="d-flex flex-column justify-content-between align-items-center"
         style={{
-          height: '50vh',
-          background: 'rgba(0,0,0,0.2)',
-          border: 'solid rgb(42, 42, 42) 4px',
+          height: "50vh",
+          background: "rgba(0,0,0,0.2)",
+          border: "solid rgb(42, 42, 42) 4px",
           borderRadius: 10,
-          boxShadow: '0 0 25px rgba(0, 0, 0, 0.8)',
-          position: 'relative',
-          overflow: 'visible'
-        }}>
-          <div className='h-100  d-flex justify-content-center align-items-center'>
+          boxShadow: "0 0 25px rgba(0, 0, 0, 0.8)",
+          position: "relative",
+          overflow: "visible",
+        }}
+      >
+        <div className="h-100  d-flex justify-content-center align-items-center">
+          <h1 className="fw-bold text-white">{message}</h1>
+        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
 
-        <h1 className="fw-bold text-white">{message}</h1>
-          </div>
-          <form action="">
+            if (!jokerValue) return;
 
-        <SmallTextInput value={jokerValue} setValue={setManualJokerValue} ref={jokerValueRef} />
-          </form>
+            addManualEntry(message === "Andar Wins" ? "A" : "B", jokerValue);
+          }}
+        >
+          <SmallTextInput
+            value={jokerValue}
+            setValue={setManualJokerValue}
+            ref={jokerValueRef}
+          />
+          {/* <button type="submit" style={{ display: "none" }} /> */}
+        </form>
         <Fireworks
           options={{
             autoresize: true,
@@ -59,15 +87,15 @@ const ModalMessage = ({ show, message, onHide, winingValue, saveResult,jokerValu
             traceSpeed: 10,
             lineWidth: { min: 1.0, max: 4.0 },
             volume: { min: 0, max: 100 },
-            files: ['explosion0.mp3', 'explosion1.mp3', 'explosion2.mp3']
+            files: ["explosion0.mp3", "explosion1.mp3", "explosion2.mp3"],
           }}
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: -1
+            width: "100%",
+            height: "100%",
+            zIndex: -1,
           }}
         />
       </Modal.Body>
