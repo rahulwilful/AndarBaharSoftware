@@ -62,10 +62,10 @@ const BarGraphComponent = () => {
     }
 
     for (let i in databaseData) {
-      if (databaseData[i].jokerCard && databaseData[i].winner === "A") {
+      if (databaseData[i].jokerValue && databaseData[i].winner === "A") {
         tempState[databaseData[i]?.jokerValue].totalWin += 1;
       }
-      if (databaseData[i].jokerCard && databaseData[i].winner === "B") {
+      if (databaseData[i].jokerValue && databaseData[i].winner === "B") {
         tempState[databaseData[i]?.jokerValue].totalWin += 1;
       }
     }
