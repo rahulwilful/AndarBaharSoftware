@@ -10,25 +10,28 @@ import {
 } from "recharts";
 import { useSelector } from "react-redux";
 import s from "./Doughnut.module.css";
+import { COLORS, DISABLED_COLORS } from "../../constants/colours";
 
-const COLORS = [
-  "#198754", // Green
-  "#dc3545", // Red
-  "#FFBB28", // Yellow
-  "#0d6efd", // Blue
-  "#6f42c1", // Purple
-  "#fd7e14", // Orange
-  "#20c997", // Teal
-  "#d63384", // Pink
-  "#6c757d", // Gray
-  "#17a2b8", // Cyan
-  "#28a745", // Lighter Green
-  "#c92a2a", // Dark Red
-  "#ffc107", // Amber
-  "#495057", // Dark Gray
-];
+
 
 const BarGraphComponent = () => {
+  const dataForDisabled = [
+    { name: "0", value: 0, andarWins: 3, baharWins: 2, totalWin: 5 },
+    { name: "A", value: 1, andarWins: 1, baharWins: 4, totalWin: 5 },
+    { name: "2", value: 2, andarWins: 2, baharWins: 1, totalWin: 3 },
+    { name: "3", value: 3, andarWins: 4, baharWins: 0, totalWin: 4 },
+    { name: "4", value: 4, andarWins: 0, baharWins: 3, totalWin: 3 },
+    { name: "5", value: 5, andarWins: 1, baharWins: 2, totalWin: 3 },
+    { name: "6", value: 6, andarWins: 3, baharWins: 1, totalWin: 4 },
+    { name: "7", value: 7, andarWins: 2, baharWins: 2, totalWin: 4 },
+    { name: "8", value: 8, andarWins: 0, baharWins: 4, totalWin: 4 },
+    { name: "9", value: 9, andarWins: 4, baharWins: 0, totalWin: 4 },
+    { name: "10", value: 10, andarWins: 1, baharWins: 1, totalWin: 2 },
+    { name: "J", value: 11, andarWins: 2, baharWins: 3, totalWin: 5 },
+    { name: "Q", value: 12, andarWins: 3, baharWins: 0, totalWin: 3 },
+    { name: "K", value: 13, andarWins: 0, baharWins: 2, totalWin: 2 },
+  ];
+
   const tempCardState = [
     { name: "0", value: 0, andarWins: 0, baharWins: 0, totalWin: 0 },
     { name: "A", value: 1, andarWins: 0, baharWins: 0, totalWin: 0 },
@@ -71,23 +74,53 @@ const BarGraphComponent = () => {
   }, [databaseData]);
 
   return (
-    <div className={`${s.main}`} style={{ width: "100%", height: 300 }}>
-      <ResponsiveContainer>
-        <BarChart data={data}>
-          <XAxis tick={{ fontSize: 17, fill: "white" }} dataKey="name" />
-          <YAxis tick={{ fontSize: 17, fill: "white" }} />
-          <Tooltip />
-          <Bar radius={[7, 7, 7, 7]} barSize={12} dataKey="totalWin" name="">
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+    <>
+      {databaseData.length > 0 ? (
+        <div className={`${s.main}`} style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <BarChart data={data}>
+              <XAxis tick={{ fontSize: 17, fill: "white" }} dataKey="name" />
+              <YAxis tick={{ fontSize: 17, fill: "white" }} />
+              <Tooltip />
+              <Bar
+                radius={[7, 7, 7, 7]}
+                barSize={12}
+                dataKey="totalWin"
+                name=""
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      ) : <div className={`${s.main}`} style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <BarChart data={dataForDisabled}>
+              <XAxis tick={{ fontSize: 17, fill: "white" }} dataKey="name" />
+              <YAxis tick={{ fontSize: 17, fill: "white" }} />
+              <Tooltip />
+              <Bar
+                radius={[7, 7, 7, 7]}
+                barSize={12}
+                dataKey="totalWin"
+                name=""
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={DISABLED_COLORS[index % DISABLED_COLORS.length]}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>}
+    </>
   );
 };
 

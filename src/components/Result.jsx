@@ -368,7 +368,7 @@ const Result = ({
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div style={{ width: "90%" }} className="d-flex   h-50 ps-4 pe-5 ">
+            <div style={{ width: "90%",height:"70%" }} className="d-flex   ps-4 pe-5 ">
               <div className=" d-flex   justify-content-center align-items-center">
                 <div className="  d-flex flex-column justify-content-center align-items-center h-100  text-center fw-bold mx-2 mb-2">
                   <div className=" border-bottom w-100  text-center fs-3 mb-1 fw-bold">
@@ -377,7 +377,7 @@ const Result = ({
                   {joker ? (
                     <SlideDownImage
                       image={joker ? joker.card : BackgroundCard}
-                      height={"40%"}
+                      height={"35%"}
                       position={"static"}
                       alt="Andar Card"
                       animationOrder={"down"}
@@ -392,12 +392,12 @@ const Result = ({
                 </div>
               </div>
               <div
-                className="d-flex  h-100 flex-column  justify-content-center w-100"
+                className="d-flex ps-4 h-100 flex-column gap-5  justify-content-center w-100"
                 style={{ paddingTop: "1.3rem", paddingBottom: "1.3rem" }}
               >
                 <div
-                  className=" px-2  h-50 w-100 "
-                  style={{ position: "relative" }}
+                  className=" px-2 w-100 "
+                  style={{ position: "relative" , height:"30%" }}
                 >
                   <div className=" border-bottom fs-3  text-center mb-1 fw-bold">
                     andar
@@ -405,8 +405,9 @@ const Result = ({
                   {andarCards.length > 0 ? (
                     andarCards.map((card, i) => (
                       <SlideDownImage
+                      height={"75%"}
                         image={card?.card}
-                        i={i + 3}
+                        i={i * 1.2}
                         alt="Andar Card"
                       />
                     ))
@@ -420,8 +421,8 @@ const Result = ({
                 </div>
 
                 <div
-                  className=" h-50    px-2 w-100 "
-                  style={{ position: "relative" }}
+                  className="   px-2 w-100 "
+                  style={{ position: "relative" , height:"30%" }}
                 >
                   <div className="border-bottom   fw-bold text-center fs-3 mb-1">
                     bahar
@@ -429,8 +430,9 @@ const Result = ({
                   {baharCards.length > 0 ? (
                     baharCards.map((card, i) => (
                       <SlideDownImage
+                      height={"75%"}
                         image={card?.card}
-                        i={i + 3}
+                        i={i * 1.2}
                         alt="Bahar Card"
                       />
                     ))
