@@ -5,7 +5,7 @@ import { Fireworks } from "@fireworks-js/react";
 import TextInput from "../formsAndInputs/TextInput";
 import SmallTextInput from "../formsAndInputs/SmallTextInput";
 
-const ModalMessage = ({
+const ManualModal = ({
   show,
   message,
   onHide,
@@ -14,8 +14,7 @@ const ModalMessage = ({
   jokerValue,
   setManualJokerValue,
   addManualEntry,
-  manualEntry,
-  closeManualEntry,
+  closeModal
 }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -30,12 +29,11 @@ const ModalMessage = ({
   }, [show]);
 
   const handleSubmit = (e) => {
-  
     e.preventDefault();
     if (!jokerValue) return;
 
-  /*   addManualEntry(message === "Andar Wins" ? "A" : "B", jokerValue);
-    closeManualEntry(); */
+    addManualEntry(message === "Andar Wins" ? "A" : "B", jokerValue);
+    closeModal()
   };
 
   return (
@@ -106,4 +104,4 @@ const ModalMessage = ({
   );
 };
 
-export default ModalMessage;
+export default ManualModal;

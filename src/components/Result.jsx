@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Container from "./layout/Container";
 import { BackgroundCard, CardImage } from "./Cards";
 import { ToastContainer, toast } from "react-toastify";
@@ -16,12 +16,15 @@ import {
   addManualEntry,
   deleteLastDataFromDB,
   getAllGameResults,
+  hardDeleteAllData,
   retrieveSoftDeletedData,
   saveGameResult,
   softDeleteAllData,
 } from "../database/indexedDB";
 import { setDataFromDatabase } from "../redux/actions/databaseAction";
 import { setStates } from "../redux/actions/cardAction";
+import ManageData from "./layout/ManageData";
+import ManualModal from "./layout/ManualModal";
 
 const Result = ({
   clearSetCard,
@@ -33,6 +36,8 @@ const Result = ({
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
+  const [dataModal, setDataModal] = useState(false);
+  const [manualEntry, setManualEntry] = useState(false);
   const [cleardCards, setCleardCards] = useState(true);
   const [message, setMessage] = useState("");
 
@@ -196,6 +201,8 @@ const Result = ({
   useEffect(() => {
     const handleKeyDown = async (e) => {
       if (isLimitFormOpen == true) return;
+      if (dataModal == true) return;
+
       // Avoid repeated firing when key is held down
       if (e.repeat) return;
 
@@ -212,7 +219,7 @@ const Result = ({
       ) {
         console.log("isResultMessageOpen ", isResultMessageOpen);
         setMessage("Andar Wins");
-        setShowModal(true);
+        setManualEntry(true);
         localStorage.setItem("isResultMessageOpen", 1);
         //dispatch(addData("A"));
         //autoHideResult();
@@ -228,8 +235,20 @@ const Result = ({
       ) {
         console.log("isResultMessageOpen ", isResultMessageOpen);
         setMessage("Bahar Wins");
-        setShowModal(true);
+        setManualEntry(true);
         localStorage.setItem("isResultMessageOpen", 1);
+        //dispatch(addData("B"));
+        //autoHideResult();
+      }
+
+      if (
+        isNumpad &&
+        e.code === "Numpad5" &&
+        !e.getModifierState("NumLock") &&
+        resultMessageOpen == "0"
+      ) {
+        setDataModal((prev) => !prev);
+
         //dispatch(addData("B"));
         //autoHideResult();
       }
@@ -245,10 +264,22 @@ const Result = ({
 
       const tag = e.target.tagName;
 
+
+
       // 🚫 Ignore when typing in inputs
       if (tag === "INPUT" || tag === "TEXTAREA" || e.target.isContentEditable) {
         return;
       }
+
+        // ✅ Ctrl + Shift + D
+    if (e.ctrlKey && e.shiftKey && (e.key === "p" || e.key === "P")) {
+      e.preventDefault(); // optional (prevents browser bookmark shortcut)
+      
+      console.log("Ctrl + Shift + P pressed");
+     // call your function
+      hardDeleteData()
+      return;
+    }
 
       if (e.key === "l" || e.key === "L") {
         await deleteLastData();
@@ -303,6 +334,11 @@ const Result = ({
     getAllData();
   };
 
+  const hardDeleteData = async() => {
+    await hardDeleteAllData()
+    getAllData();
+  }
+
   const getAllData = async () => {
     const data = await getAllGameResults();
     dispatch(setDataFromDatabase(data));
@@ -344,17 +380,41 @@ const Result = ({
     getAllData();
   };
 
+  useEffect(() => {
+    console.log("dataModal: ", dataModal);
+  }, [dataModal]);
+
   return (
     <>
-      <ModalMessage
-        show={showModal}
+      <ManageData
+        getAllData={getAllData}
+        show={dataModal}
+        closeModal={() => setDataModal(false)}
         message={message}
+        addManualEntry={helperAddManualEntry}
+      />
+      <ManualModal
+        show={manualEntry}
+        message={message}
+         closeModal={() => setManualEntry(false)}
         jokerValue={jokerValue}
         setManualJokerValue={(value) => {
           setJokerValue(value);
         }}
         addManualEntry={helperAddManualEntry}
       />
+
+      <ModalMessage
+        show={showModal}
+        message={message}
+       
+        jokerValue={jokerValue}
+        setManualJokerValue={(value) => {
+          setJokerValue(value);
+        }}
+        addManualEntry={helperAddManualEntry}
+      />
+
       <Container py={0} px={0} h={"31vh"} classes={" capitalize"}>
         <div className="   h-100 w-100  ">
           <div
@@ -368,7 +428,10 @@ const Result = ({
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div style={{ width: "90%",height:"70%" }} className="d-flex   ps-4 pe-5 ">
+            <div
+              style={{ width: "90%", height: "70%" }}
+              className="d-flex   ps-4 pe-5 "
+            >
               <div className=" d-flex   justify-content-center align-items-center">
                 <div className="  d-flex flex-column justify-content-center align-items-center h-100  text-center fw-bold mx-2 mb-2">
                   <div className=" border-bottom w-100  text-center fs-3 mb-1 fw-bold">
@@ -397,7 +460,7 @@ const Result = ({
               >
                 <div
                   className=" px-2 w-100 "
-                  style={{ position: "relative" , height:"30%" }}
+                  style={{ position: "relative", height: "30%" }}
                 >
                   <div className=" border-bottom fs-3  text-center mb-1 fw-bold">
                     andar
@@ -405,7 +468,7 @@ const Result = ({
                   {andarCards.length > 0 ? (
                     andarCards.map((card, i) => (
                       <SlideDownImage
-                      height={"75%"}
+                        height={"75%"}
                         image={card?.card}
                         i={i * 1.2}
                         alt="Andar Card"
@@ -422,7 +485,7 @@ const Result = ({
 
                 <div
                   className="   px-2 w-100 "
-                  style={{ position: "relative" , height:"30%" }}
+                  style={{ position: "relative", height: "30%" }}
                 >
                   <div className="border-bottom   fw-bold text-center fs-3 mb-1">
                     bahar
@@ -430,7 +493,7 @@ const Result = ({
                   {baharCards.length > 0 ? (
                     baharCards.map((card, i) => (
                       <SlideDownImage
-                      height={"75%"}
+                        height={"75%"}
                         image={card?.card}
                         i={i * 1.2}
                         alt="Bahar Card"
