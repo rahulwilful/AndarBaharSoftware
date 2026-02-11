@@ -73,6 +73,7 @@ export const addManualEntry = async (winner, jokerValue) => {
 };
 
 export const getAllGameResults = async () => {
+  //keepOnlyLast200Records()
   const db = await openDB();
 
   return new Promise((resolve, reject) => {
@@ -182,6 +183,42 @@ export const retrieveSoftDeletedData = async () => {
       });
 
       resolve(true);
+    };
+
+    request.onerror = () => reject(request.error);
+  });
+};
+
+export const keepOnlyLast200Records = async () => {
+  console.log("keepOnlyLast200Records called")
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+
+    const request = store.getAll();
+
+    request.onsuccess = () => {
+      const data = request.result;
+
+      if (data.length <= 10) {
+        resolve(true); // nothing to delete
+        return;
+      }
+
+      // Sort by time descending (latest first)
+      const sorted = data.sort((a, b) => b.time - a.time);
+
+      // Records to delete (everything after 200)
+      const recordsToDelete = sorted.slice(10);
+
+      recordsToDelete.forEach((item) => {
+        store.delete(item.id);
+      });
+
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
     };
 
     request.onerror = () => reject(request.error);
