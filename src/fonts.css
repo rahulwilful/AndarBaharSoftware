@@ -1,0 +1,131 @@
+.lato-thin {
+  font-family: 'Lato', sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lato-light {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lato-regular {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-bold {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-black {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.lato-thin-italic {
+  font-family: 'Lato', sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light-italic {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular-italic {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold-italic {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black-italic {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.gemeStonesRegular {
+  font-family: 'Rubik Gemstones', system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+.gemeStonesThin {
+  font-family: 'Rubik Gemstones', system-ui;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.delius-regular {
+  font-family: 'Delius', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.deliusRegular {
+  font-family: 'Delius', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.winkySans300 {
+  font-family: 'Winky Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.winkySans400 {
+  font-family: 'Winky Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.winkySans500 {
+  font-family: 'Winky Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.winkySans600 {
+  font-family: 'Winky Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.winkySans700 {
+  font-family: 'Winky Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.winkySans800 {
+  font-family: 'Winky Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.winkySans900 {
+  font-family: 'Winky Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}

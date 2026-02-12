@@ -434,7 +434,7 @@ const Result = ({
             >
               <div className=" d-flex   justify-content-center align-items-center">
                 <div className="  d-flex flex-column justify-content-center align-items-center h-100  text-center fw-bold mx-2 mb-2">
-                  <div className=" border-bottom w-100  text-center fs-3 mb-1 fw-bold">
+                  <div className=" border-bottom w-100   text-center fs-3 mb-1 fw-bold">
                     Joker
                   </div>
                   {joker ? (
