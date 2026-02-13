@@ -78,7 +78,7 @@
 }
 
 .textColor {
-  background: linear-gradient(90deg, red, orange, yellow);
+  background: linear-gradient(90deg, rgb(249, 249, 249), rgb(255, 255, 255), rgb(255, 255, 255));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
