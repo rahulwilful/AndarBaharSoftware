@@ -17,13 +17,13 @@ const TableCLose = () => {
     tl.fromTo(
       letters,
       {
-        y: -200,
+        y: -500,
         opacity: 0,
       },
       {
         y: 0,
         opacity: 1,
-        duration: 0.8,
+        duration: 1.8,
         ease: "bounce.out",
         stagger: 0.08,
       }
@@ -43,18 +43,15 @@ const TableCLose = () => {
         stagger: 0.1,
       }
     );
-
   }, []);
 
   const text = "Table Closed";
 
   return (
     <div
-      className="overflow-hidden vh-100 w-100"
+      className="overflow-hidden vh-100 w-100 bg-dark bg-gradient"
       style={{ position: "relative" }}
     >
-
-      <div className={`${s.container}`}></div>
       <div
         ref={textRef}
         className={`${s.textColor} w-100 h-100 text-shadow gemeStonesRegular d-flex justify-content-center align-items-center ${s.gemeStonesRegular}`}
@@ -62,17 +59,18 @@ const TableCLose = () => {
           position: "absolute",
           fontSize: "9rem",
           gap: "5px",
+          textShadow: "0px 150px 30px rgba(0, 0, 0, 0.5)", // Shadow effect
         }}
       >
         {text.split("").map((char, index) => (
           <span
-          key={index}
+            key={index}
             className={`letter ${s.textColor} gemeStonesRegular`}
             style={{
               display: "inline-block",
               whiteSpace: char === " " ? "pre" : "normal",
             }}
-            >
+          >
             {char}
           </span>
         ))}
