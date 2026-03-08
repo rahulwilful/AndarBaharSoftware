@@ -12,9 +12,14 @@ import {
 const Limits = ({}) => {
   const minRef = useRef(null);
   const maxRef = useRef(null);
+  const tableNumRef = useRef(null);
+
+    const tableInputs = [minRef, maxRef, tableNumRef];
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const [maxLimit, setMaxLimit] = useState();
   const [minLimit, setMinLimit] = useState();
+  const [tableNumber,setTableNumber] = useState()
   const [tableID, setTableID] = useState();
 
   const [openForm, setOpenForm] = useState(false);
@@ -26,8 +31,11 @@ const Limits = ({}) => {
     const loadLimits = async () => {
       let max = Number(localStorage.getItem("maxLimit"));
       let min = Number(localStorage.getItem("minLimit"));
+       let tableNo = Number(localStorage.getItem("tableNumber"));
 
-      console.log("min and max ", min, max);
+      console.log("min , max  and tableNumber", min, max,tableNo);
+
+      if(tableNo) setTableNumber(tableNo)
 
       if (!min || !max) {
         console.log("inside if min and max ", min, max);
@@ -104,6 +112,7 @@ const Limits = ({}) => {
     // console.log("handleSubmit called");
     localStorage.setItem("maxLimit", maxLimit);
     localStorage.setItem("minLimit", minLimit);
+    localStorage.setItem("tableNumber",tableNumber)
   };
 
   useEffect(() => {
@@ -114,32 +123,30 @@ const Limits = ({}) => {
     }
   }, [openForm]);
 
-  useEffect(() => {
+ useEffect(() => {
     if (!openForm) return;
 
     const handleKeyNav = (e) => {
       if (e.getModifierState("NumLock")) return;
 
-      const active = document.activeElement;
+      if (e.code === "Numpad2") {
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % tableInputs.length;
+        setCurrentIndex(nextIndex);
+        tableInputs[nextIndex].current?.focus();
+      }
 
       if (e.code === "Numpad8") {
         e.preventDefault();
-        if (active === maxRef.current) {
-          minRef.current?.focus();
-        }
-      }
-
-      if (e.code === "Numpad2") {
-        e.preventDefault();
-        if (active === minRef.current) {
-          maxRef.current?.focus();
-        }
+        const prevIndex = (currentIndex - 1 + tableInputs.length) % tableInputs.length;
+        setCurrentIndex(prevIndex);
+        tableInputs[prevIndex].current?.focus();
       }
     };
 
     window.addEventListener("keydown", handleKeyNav);
     return () => window.removeEventListener("keydown", handleKeyNav);
-  }, [openForm]);
+  }, [openForm, currentIndex]);
 
   return (
     <>
@@ -147,16 +154,23 @@ const Limits = ({}) => {
         <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
           <TextInput
             ref={minRef}
-            value={minLimit}
+            value={minLimit || null}
             setValue={(e) => setMinLimit(Number(e.target.value))}
             placeHolder="Min Limit"
           />
 
           <TextInput
             ref={maxRef}
-            value={maxLimit}
+            value={maxLimit || null}
             setValue={(e) => setMaxLimit(Number(e.target.value))}
             placeHolder="Max Limit"
+          />
+
+             <TextInput
+            ref={tableNumRef}
+            value={tableNumber || null}
+            setValue={(e) => setTableNumber(Number(e.target.value))}
+            placeHolder="Enter Table Number"
           />
           <button type="submit" style={{ display: "none" }} />
         </form>
@@ -175,7 +189,7 @@ const Limits = ({}) => {
           className="py-2  px-5 shadow-lg w-100 px-3 d-flex h-100 justify-content-between align-items-center capitalize fs-4"
         >
           <div>min - {minLimit}</div>
-          <div className="fs-2">Table No. - 1</div>
+          <div className="fs-2">Table No. - {tableNumber}</div>
 
           <div>max - {maxLimit}</div>
         </div>

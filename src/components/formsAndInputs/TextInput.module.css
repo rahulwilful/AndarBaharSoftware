@@ -48,3 +48,15 @@
 .input_field:focus + .input_label + .input_highlight {
   width: 100%;
 }
+
+/* Remove arrows in Chrome, Edge, Safari */
+.input_field::-webkit-outer-spin-button,
+.input_field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove arrows in Firefox */
+.input_field {
+  -moz-appearance: textfield;
+}
